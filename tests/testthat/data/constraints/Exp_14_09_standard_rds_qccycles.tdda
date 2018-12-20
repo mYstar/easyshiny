@@ -1,0 +1,37 @@
+{
+    "creation_metadata": {
+        "local_time": "2018-12-17 13:13:37", 
+        "utc_time": "2018-12-17 12:12:37", 
+        "creator": "TDDA 1.0.13", 
+        "source": "tmp/Exp_14_09_standard_rds_qccycles.feather", 
+        "host": "est5", 
+        "user": "est", 
+        "dataset": "Exp_14_09_standard_rds_qccycles.feather", 
+        "n_records": 2880, 
+        "n_selected": 2880, 
+        "tddafile": "constraints/Exp_14_09_standard_rds_qccycles.tdda"
+    }, 
+    "fields": {
+        "n": {
+            "type": "int", 
+            "min": 1, 
+            "max": 1, 
+            "sign": "positive", 
+            "max_nulls": 0
+        }, 
+        "Simulation.Time": {
+            "type": "int", 
+            "min": 0, 
+            "max": 172740, 
+            "sign": "non-negative", 
+            "max_nulls": 0, 
+            "no_duplicates": true
+        }, 
+        "Taktzeitermittlung.akt..Taktzeit": {
+            "type": "real", 
+            "min": 0.0, 
+            "sign": "non-negative", 
+            "max_nulls": 0
+        }
+    }
+}

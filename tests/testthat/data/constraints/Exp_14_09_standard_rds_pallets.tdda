@@ -1,0 +1,50 @@
+{
+    "creation_metadata": {
+        "local_time": "2018-12-17 13:13:00", 
+        "utc_time": "2018-12-17 12:12:00", 
+        "creator": "TDDA 1.0.13", 
+        "source": "pallets.feather", 
+        "host": "est5", 
+        "user": "est", 
+        "dataset": "pallets.feather", 
+        "n_records": 14400, 
+        "n_selected": 14400, 
+        "tddafile": "pallets.tdda"
+    }, 
+    "fields": {
+        "n": {
+            "type": "int", 
+            "min": 1, 
+            "max": 1, 
+            "sign": "positive", 
+            "max_nulls": 0
+        }, 
+        "Simulation.Time": {
+            "type": "int", 
+            "min": 0, 
+            "max": 172740, 
+            "sign": "non-negative", 
+            "max_nulls": 0
+        }, 
+        "pallettype": {
+            "type": "string", 
+            "min_length": 11, 
+            "max_length": 20, 
+            "max_nulls": 0, 
+            "allowed_values": [
+                "Collect_Pallets", 
+                "MainCustomer_Pallets", 
+                "PalletsReady", 
+                "PalletsRest", 
+                "Shuttle_Pallets"
+            ]
+        }, 
+        "pallets": {
+            "type": "real", 
+            "min": 0.0, 
+            "max": 72.0, 
+            "sign": "non-negative", 
+            "max_nulls": 0
+        }
+    }
+}
