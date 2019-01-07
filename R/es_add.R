@@ -12,33 +12,6 @@ summaries_to_html <- function( summaries ) {
                                TRUE ~ '') ) %>%
     ungroup
 
-  if( 'prodnum' %in% colnames(summaries) )
-    summaries <- summaries %>%
-      mutate( prodnum =  paste0('order: ', prodnum %>% as.character()) )
-  else
-    summaries <- summaries %>%
-      mutate(prodnum = '')
-  if( 'lifternumber' %in% colnames(summaries) )
-    summaries <- summaries %>%
-      mutate( lifternumber =  paste0('lifter: ', lifternumber %>% as.character()) )
-  else
-    summaries <- summaries %>%
-      mutate(lifternumber = '')
-  if( 'machine' %in% colnames(summaries) )
-    summaries <- summaries %>%
-      mutate( machine =  paste0('machine: ', machine %>% as.character()) )
-  else
-    summaries <- summaries %>%
-      mutate(machine = '')
-  if( 'Simulation.Time' %in% colnames(summaries) & 'product' %in% colnames(summaries) )
-    summaries <- summaries %>%
-      mutate( max_prod =  paste0('p: ', product %>% as.character()) ) %>%
-      mutate( max_time =  paste0('t: ', Simulation.Time %>% round( digits = 0 ) %>% as.character()) )
-  else
-    summaries <- summaries %>%
-      mutate(max_prod = '') %>%
-      mutate(max_time = '')
-
   summaries <- summaries %>%
     rowwise() %>%
     mutate( text = tags$p(
@@ -61,4 +34,30 @@ summaries_to_html <- function( summaries ) {
 
   summaries$text %>%
     paste0( collapse = ' ' )
+}
+
+#' Adds a plot to the Easy Shiny app.
+#'
+#' @param plot expression, that generates a plot (as in \code{\link{shiny::renderPlot}})
+#' @param tab tab to show the plot in (new name creates tab)
+#' @param box box in the view area to show plot in (new name creates box)
+#'
+#' @return
+#' @export
+#'
+#' @examples
+es_add_plot <- function(plot, tab = 'Output', box = 'Data') {
+
+  # get an unique number for the plot
+  vis_counter <- get('vis_counter', envir = appData)
+  vis_counter <- vis_counter + 1
+  assign('vis_counter', vis_counter, envir = appData)
+
+  # add the plot to the visuals
+  vis_table <- get('visuals', envir = appData)
+  vis_table <- rbind(
+    vis_table,
+    list( id=paste0('plot', vis_counter),  expr=plot )
+    )
+  assign('visuals', vis_table, envir = appData)
 }
