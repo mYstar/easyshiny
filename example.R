@@ -5,12 +5,17 @@ library(ggplot2)
 
 es_init()
 
-es_read('statistics.csv')
+es_read('statistic.csv')
 
 es_add_plot({
-  # data <- inputdata()
-  ggplot(mpg, aes(drv, cty)) +
-    geom_point()
+  data <- statistic()
+  ggplot(data, aes(Simulation.Time, Test)) +
+    geom_line()
+})
+
+es_add_plot({
+  ggplot(statistic(), aes(Test)) +
+    geom_histogram()
 })
 
 es_start()

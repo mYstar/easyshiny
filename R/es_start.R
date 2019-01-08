@@ -9,6 +9,8 @@ options(spinner.type=8) # shinycssspinner type
 #'
 #' @return The output from \code{\link{shiny::shinyApp}}.
 #' @importFrom shiny shinyApp
+#' @importFrom dplyr tbl_df mutate
+#' @importFrom magrittr %>%
 #' @export
 es_start <- function(title='Easy Shiny Project') {
 
@@ -34,12 +36,15 @@ es_start <- function(title='Easy Shiny Project') {
         }
       )
 
-      # --- machine data ---
-      # read machine .csv
-      inputdata <- reactive( {
-        es_read_files( filesets$data, files[[1]]$filename, function() {} )
-      } )
-
+      # create the filereader functions
+      if(nrow(files) > 0) {
+        for(idx in 1:nrow(files)) {
+          assign(
+            files[idx,]$name,
+            reactive( { es_read_files( filesets$data, files[idx,]$name, function(data) {data} ) } )
+          )
+        }
+      }
 
       # render all the visuals
       if(length(visuals) > 0) {
@@ -81,7 +86,7 @@ es_build_ui <-  function(title, visuals) {
         tabItem(tabName='input',
                 box(
                   status = 'danger',
-                  fileInput(inputId = 'simfiles1',
+                  fileInput(inputId = 'files1',
                             label = '1: choose files',
                             multiple = TRUE),
                   textInput(inputId = 'fileset1_name',

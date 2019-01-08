@@ -1,5 +1,3 @@
-library(dplyr)
-
 ### --------------------------------------- ###
 ### generic functions
 ### --------------------------------------- ###
@@ -25,6 +23,9 @@ es_read_filesets <- function( folders ) {
 #' @param filename the name of the file to use
 #' @param callback (optional) a function to call on the read dataframe
 #' @param ... arguments to pass on to \code{\link{read.csv}}
+#'
+#' @importFrom magrittr %>%
+#' @importFrom dplyr group_by do filter tbl_df ungroup
 #'
 #' @return a dataframe containing the read data
 es_read_files <- function( filesets, filename, callback,... ) {
