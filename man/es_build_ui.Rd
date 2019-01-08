@@ -4,7 +4,12 @@
 \alias{es_build_ui}
 \title{Builds the UI skeleton for the app.}
 \usage{
-es_build_ui(title)
+es_build_ui(title, visuals)
+}
+\arguments{
+\item{title}{The title to insert in the main menu.}
+
+\item{visuals}{The visuals to use for the UI}
 }
 \value{
 html + js code with the needed shiny directives

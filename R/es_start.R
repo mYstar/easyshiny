@@ -1,10 +1,6 @@
 options(shiny.maxRequestSize=500*1024^2) # max filesize 500MB
 options(spinner.type=8) # shinycssspinner type
 
-appData <- new.env()
-assign('visuals', list(), envir = appData)
-assign('vis_counter', 0, envir = appData)
-
 #' @title Start Easyshiny App.
 #' @description Create the Shiny server and UI code and start the server.
 #' The Shiny project will contain all previously added data and visualization.
@@ -16,13 +12,42 @@ assign('vis_counter', 0, envir = appData)
 #' @export
 es_start <- function(title='Easy Shiny Project') {
 
+  files <- get('files', envir = appData)
+
   visuals <- get('visuals', envir = appData)
   ui <- es_build_ui(title, visuals)
   server <- function(input, output) {
-      apply(visuals, 1, function(line) {
-          output[[line$id]] <- renderPlot(line$expr)
+
+      ## read all the user input
+      # default values
+      filesets <- reactiveValues(
+          set1_name = 'fileset1_name',
+          data = NULL
+        )
+
+      # observer on the OK buttons
+      observeEvent( input$fileset1_button,
+        {
+          # read the names of the filesets
+          filesets$set1_name <- input$fileset1_name
+          filesets$data <- input$files1 %>% tbl_df %>% mutate(n='1')
         }
       )
+
+      # --- machine data ---
+      # read machine .csv
+      inputdata <- reactive( {
+        es_read_files( filesets$data, files[[1]]$filename, function() {} )
+      } )
+
+
+      # render all the visuals
+      if(length(visuals) > 0) {
+        apply(visuals, 1, function(line) {
+            output[[line$id]] <- eval(line$expr)
+          }
+        )
+      }
     }
   shiny::shinyApp(ui = ui, server = server)
 }
@@ -57,7 +82,7 @@ es_build_ui <-  function(title, visuals) {
                 box(
                   status = 'danger',
                   fileInput(inputId = 'simfiles1',
-                            label = '1: choose simulation files',
+                            label = '1: choose files',
                             multiple = TRUE),
                   textInput(inputId = 'fileset1_name',
                             label='choose a name for the dataset:',
@@ -68,14 +93,16 @@ es_build_ui <-  function(title, visuals) {
                 )
         ),
         tabItem(tabName='output',
-                apply(visuals, 1, function(vis) {
-                  box(
-                    width = 12,
-                    status = "info",
-                    title=vis$id,
-                    plotOutput(outputId=vis$id)
-                  )
-                })
+          if(length(visuals) > 0) {
+            apply(visuals, 1, function(vis) {
+              box(
+                width = 12,
+                status = "info",
+                title=vis$id,
+                plotOutput(outputId=vis$id)
+              )
+            })
+          }
         )
       )
     )

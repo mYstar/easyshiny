@@ -57,7 +57,10 @@ es_add_plot <- function(plot, tab = 'Output', box = 'Data') {
   vis_table <- get('visuals', envir = appData)
   vis_table <- rbind(
     vis_table,
-    list( id=paste0('plot', vis_counter),  expr=plot )
+    list(
+      id=paste0('plot', vis_counter),
+      expr=substitute( renderPlot(plot) )
+      )
     )
   assign('visuals', vis_table, envir = appData)
 }
