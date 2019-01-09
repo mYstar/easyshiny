@@ -1,4 +1,4 @@
-library(shinystat)
+library(easyshiny)
 library(magrittr)
 
 context('test RDS generation script')

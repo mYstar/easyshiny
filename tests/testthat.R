@@ -1,4 +1,4 @@
 library(testthat)
-library(shinystat)
+library(easyshiny)
 
-test_check("shinystat")
+test_check("easyshiny")

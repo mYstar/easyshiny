@@ -1,34 +1,23 @@
 library(dplyr)
 library(shiny)
 
-# --- util ---
-summaries_to_html <- function( summaries ) {
+#' Converts a list containing output from \code{\link{summary}} into a html format usable by shiny.
+#'
+#' @param summaries a list of summary objects
+#'
+#' @return html: a paragraph for every summary containing the computed values
+#' @export
+es_summaries_to_html <- function( summaries ) {
   # build the hmtl output
-  summaries <- summaries %>%
-    ungroup() %>%
-    mutate( setname = setname %>% as.character ) %>%
-    group_by( setname) %>%
-    mutate( header = case_when( (setname != lag(setname , default='')) ~ setname,
-                               TRUE ~ '') ) %>%
-    ungroup
-
   summaries <- summaries %>%
     rowwise() %>%
     mutate( text = tags$p(
-      tags$h5(header),
-      tags$b(prodnum),
-      tags$b(lifternumber),
-      tags$b(machine),
       "Min:", summary['Min.'] %>% round(digits=2),
       ", 1st Qu.:", summary['1st Qu.'] %>% round(digits=2),
       ", Median:", summary['Median'] %>% round(digits=2),
       ", Mean:", summary['Mean'] %>% round(digits=2),
       ", 3rd Qu.:", summary['3rd Qu.'] %>% round(digits=2),
-      ", Max:", summary['Max.'] %>% round(digits=2),
-      '(',
-      max_prod,
-      max_time,
-      ')'
+      ", Max:", summary['Max.'] %>% round(digits=2)
       ) %>% as.character()
     )
 

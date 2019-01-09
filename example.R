@@ -5,18 +5,18 @@ library(ggplot2)
 
 es_init()
 
-es_read('statistic.csv')
+es_read('bike_buyers.csv')
 
 es_add_plot({
-  data <- statistic()
-  ggplot(data, aes(Simulation.Time, Test)) +
-    geom_line()
+  ggplot(bike_buyers(), aes(x=Commute.Distance, fill=Purchased.Bike)) +
+    geom_bar(position = 'fill')
 })
 
 es_add_plot({
-  ggplot(statistic(), aes(Test)) +
-    geom_histogram()
+  ggplot(bike_buyers(), aes(x=Age, y=Income)) +
+    geom_point() +
+    geom_smooth()
 })
 
-es_start()
+es_start(title = 'Bikes')
 

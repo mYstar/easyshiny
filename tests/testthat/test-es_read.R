@@ -1,9 +1,29 @@
-library(shinystat)
+library(easyshiny)
 library(feather)
 library(dplyr)
 library(tidyr)
 
 context('file reading and fileset handling')
+
+test_that('list of input files is created correctly', {
+  es_init()
+  expect_equal(length(get('files', easyshiny:::appData)), 0)
+  expect_equal(class(get('files', easyshiny:::appData)), 'list')
+
+  es_read('test1.csv')
+  files <- get('files', easyshiny:::appData)
+  expect_equal(nrow(files), 1)
+  expect_equal(files[1,]$name, 'test1')
+  expect_equal(files[1,]$file, 'test1.csv')
+
+  es_read('test2.csv')
+  files <- get('files', easyshiny:::appData)
+  expect_equal(nrow(files), 2)
+  expect_equal(files[1,]$name, 'test1')
+  expect_equal(files[1,]$file, 'test1.csv')
+  expect_equal(files[2,]$name, 'test2')
+  expect_equal(files[2,]$file, 'test2.csv')
+})
 
 test_that('creating fileset from folder', {
   fileset <- base.data.read.filesets('data/Exp_14_09_standard_rds/')
@@ -52,29 +72,6 @@ test_that('setnames are applied', {
   pallets_test <- base.data.add.setname(pallets, c('test1', 'test2', 'test3'))
   expect_false( pallets_test$setname %>% is.null() )
   expect_equal( pallets_test$setname %>% unique() %>% as.character(), c('test1', 'test2') )
-})
-
-test_that('timeframe is limited', {
-  fileset <- base.data.read.filesets('data/Exp_14_09_standard_rds/')
-  pallets <- base.data.read.files(fileset, shinystat::file.warehouse_pallets, NULL)
-  expect_equal(pallets$Simulation.Time %>% min(), 0)
-  expect_equal(pallets$Simulation.Time %>% max(), 172740)
-
-  pallets_limited <- base.data.select(pallets, 180, 18000)
-  expect_equal(pallets_limited$Simulation.Time %>% min(), 180)
-  expect_equal(pallets_limited$Simulation.Time %>% max(), 18000)
-
-  pallets_limited <- base.data.select(pallets, 2500, 10000)
-  expect_equal(pallets_limited$Simulation.Time %>% min(), 2520) # exact values are not available
-  expect_equal(pallets_limited$Simulation.Time %>% max(), 9960)
-
-  pallets_limited <- base.data.select(pallets, -1000, 18000)
-  expect_equal(pallets_limited$Simulation.Time %>% min(), 0)
-  expect_equal(pallets_limited$Simulation.Time %>% max(), 18000)
-
-  pallets_limited <- base.data.select(pallets, 180, 99999999)
-  expect_equal(pallets_limited$Simulation.Time %>% min(), 180)
-  expect_equal(pallets_limited$Simulation.Time %>% max(), 172740)
 })
 
 test_that('data is read in correctly', {

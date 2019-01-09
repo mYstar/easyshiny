@@ -1,4 +1,4 @@
-library(shinystat)
+library(easyshiny)
 
 context('File checking abilities')
 

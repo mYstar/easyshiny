@@ -1,4 +1,4 @@
-library(shinystat)
+library(easyshiny)
 
 context('console.R: reading data to global environment')
 
