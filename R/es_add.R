@@ -48,7 +48,9 @@ es_add_plot <- function(plot, tab = 'Output', box = 'Data') {
     vis_table,
     list(
       id=paste0('plot', vis_counter),
-      expr=substitute( renderPlot(plot) )
+      expr=substitute( renderPlot(plot) ),
+      tab=tab,
+      box=box
       )
     )
   assign('visuals', vis_table, envir = appData)
