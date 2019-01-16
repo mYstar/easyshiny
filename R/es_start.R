@@ -15,8 +15,8 @@ options(spinner.type=8) # shinycssspinner type
 es_start <- function(title='Easy Shiny Project') {
 
   files <- get('files', envir = appData)
-
   visuals <- get('visuals', envir = appData)
+
   ui <- es_build_ui(title, visuals)
   server <- function(input, output) {
 

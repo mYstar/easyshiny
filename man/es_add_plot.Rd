@@ -4,7 +4,7 @@
 \alias{es_add_plot}
 \title{Adds a plot to the Easy Shiny app.}
 \usage{
-es_add_plot(plot, tab = "Output", box = "Data")
+es_add_plot(plot, tab = "Output", box = "Result")
 }
 \arguments{
 \item{plot}{expression, that generates a plot (as in \code{\link{shiny::renderPlot}})}

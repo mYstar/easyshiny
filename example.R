@@ -18,6 +18,6 @@ es_add_plot({
     geom_smooth()
 }, tab = 'Bikes', box = 'Visualization')
 
-# visuals <- get('visuals', envir = easyshiny:::appData)
+visuals <- get('visuals', envir = easyshiny:::appData)
 # easyshiny:::es_build_ui('Bikes', visuals)
 es_start(title = 'Bikes')

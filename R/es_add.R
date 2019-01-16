@@ -35,7 +35,7 @@ es_summaries_to_html <- function( summaries ) {
 #' @export
 #'
 #' @examples
-es_add_plot <- function(plot, tab = 'Output', box = 'Data') {
+es_add_plot <- function(plot, tab = 'Output', box = 'Result') {
 
   # get an unique number for the plot
   vis_counter <- get('vis_counter', envir = appData)

@@ -29,24 +29,22 @@ es_build_ui <-  function(title, visuals) {
         )
       ),
       do.call(tabItems,
-        if(length(visuals) > 0) {
           lapply( visuals[,'tab'] %>% unique(), function(tab) {
             tabItem(tabName=tab,
               lapply( visuals[,'box'] %>% unique(), function(boxname) {
-                if(boxname %in% visuals[visuals[,"tab"] == tab,][,'box']) {
+                if(boxname %in% visuals[visuals[,"tab"] == tab,, drop = F][,'box']) {
                   box(
                     width = 12,
                     status = "info",
                     title=boxname,
-                    apply( visuals %>% unique(), 1, function(vis) {
+                    apply( visuals, 1, function(vis) {
                       if(vis$tab==tab & vis$box == boxname) {
                         plotOutput(outputId=vis$id)
                       }
                   } # 3rd apply (visuals)
                  )
              ) } } ) # 2nd lapply (boxes)
-          ) } ) # 1st lapply (tabs)
-        } %>%
+          ) } )  %>% # 1st lapply (tabs)
           list.prepend(
             tabItem(tabName='input',
                     box(
