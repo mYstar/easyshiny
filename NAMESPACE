@@ -3,6 +3,7 @@
 export(es_add_plot)
 export(es_init)
 export(es_read)
+export(es_read_filesets)
 export(es_start)
 export(es_summaries_to_html)
 import(shiny)

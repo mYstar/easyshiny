@@ -1,4 +1,3 @@
-options(shiny.maxRequestSize=500*1024^2) # max filesize 500MB
 options(spinner.type=8) # shinycssspinner type
 
 #' @title Start Easyshiny App.

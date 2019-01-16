@@ -6,7 +6,8 @@
 #'
 #' @param folders an array of paths to folders containing the data to use
 #'
-#' @return
+#' @return a dtatframe in shiny fileinput format
+#' @export
 es_read_filesets <- function( folders ) {
 
   data.frame( datapath = dir(folders, full.names = TRUE) ) %>%
@@ -73,18 +74,6 @@ es_add_setname <- function( simdata, setnames ) {
 
   simdata %>%
     left_join( setnames )
-}
-
-# Select the data inside the timerange.
-#'
-#' @param simdata a dataframe with a time column
-#' @param time_min the minimal value for the time window
-#' @param time_max the maximal value for the time window
-#'
-#' @return a data frame containing only the rows inside of the time window
-es_timerange_select <- function( simdata , time_min, time_max ) {
-  simdata %>%
-    filter(Simulation.Time >= time_min & Simulation.Time <= time_max)
 }
 
 #' Makes a file usable for user input. The file can then be supplied by the user at runtime and

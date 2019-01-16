@@ -12,7 +12,7 @@ test_that('global vars are created and deleted', {
   es_init()
 
   expect_equal(length(get('visuals', easyshiny:::appData)), 0)
-  expect_equal(class(get('visuals', easyshiny:::appData)), 'list')
+  expect_equal(class(get('visuals', easyshiny:::appData)), 'matrix')
 
   expect_equal(length(get('files', easyshiny:::appData)), 0)
   expect_equal(class(get('files', easyshiny:::appData)), 'list')

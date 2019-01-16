@@ -1,5 +1,22 @@
-# simple test script
+---
+title: "Example App"
+author: "Eric Starke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example App}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r, echo=FALSE, results='asis'}
 library(easyshiny)
 library(ggplot2)
 
@@ -18,6 +35,5 @@ es_add_plot({
     geom_smooth()
 }, tab = 'Bikes', box = 'Visualization')
 
-visuals <- get('visuals', envir = easyshiny:::appData)
-# easyshiny:::es_build_ui('Bikes', visuals)
 es_start(title = 'Bikes')
+```

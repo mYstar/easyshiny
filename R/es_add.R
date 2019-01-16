@@ -31,10 +31,7 @@ es_summaries_to_html <- function( summaries ) {
 #' @param tab tab to show the plot in (new name creates tab)
 #' @param box box in the view area to show plot in (new name creates box)
 #'
-#' @return
 #' @export
-#'
-#' @examples
 es_add_plot <- function(plot, tab = 'Output', box = 'Result') {
 
   # get an unique number for the plot
