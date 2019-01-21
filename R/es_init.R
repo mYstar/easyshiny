@@ -1,5 +1,4 @@
 library(shinycssloaders)
-options(spinner.type=8) # shinycssspinner type
 
 appData <- new.env()
 

@@ -17,28 +17,12 @@ es_start <- function(title='Easy Shiny Project') {
   ui <- es_build_ui(title, visuals)
   server <- function(input, output) {
 
-      ## read all the user input
-      # default values
-      filesets <- reactiveValues(
-          set1_name = 'fileset1_name',
-          data = NULL
-        )
-
-      # observer on the OK buttons
-      observeEvent( input$fileset1_button,
-        {
-          # read the names of the filesets
-          filesets$set1_name <- input$fileset1_name
-          filesets$data <- input$files1 %>% tbl_df %>% mutate(n='1')
-        }
-      )
-
       # create the filereader functions
       if(nrow(files) > 0) {
         for(idx in 1:nrow(files)) {
           assign(
             files[idx,]$name,
-            reactive( { es_read_files( filesets$data, files[idx,]$name, function(data) {data} ) } )
+            eval(files[idx,]$reader)
           )
         }
       }

@@ -87,10 +87,17 @@ es_add_setname <- function( simdata, setnames ) {
 #' @return NULL
 #' @export
 es_read <- function(filename) {
+
   files_table <- get('files', envir = appData)
   files_table <- rbind(
     files_table,
-    list( name=strsplit(filename, split = '.', fixed = T)[[1]][1],  file=filename )
+    list(
+      name=strsplit(filename, split = '.', fixed = T)[[1]][1],
+      reader=quote( reactive({es_read_files( input$files1 %>% mutate(n = 1), files[idx,]$name, function(data) {data} )}))
+      )
     )
   assign('files', files_table, envir = appData)
+
+  reader <- function() { es_read_files( input$files1 %>% mutate(n = 1), files[idx,]$name, function(data) {data} ) }
+  reader
 }

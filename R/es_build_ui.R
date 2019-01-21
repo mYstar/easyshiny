@@ -58,13 +58,7 @@ es_build_ui <-  function(title, visuals) {
                       status = 'danger',
                       fileInput(inputId = 'files1',
                                 label = '1: choose files',
-                                multiple = TRUE),
-                      textInput(inputId = 'fileset1_name',
-                                label='choose a name for the dataset:',
-                                value='fileset 1'),
-                      actionButton( inputId = 'fileset1_button',
-                                    label = 'OK',
-                                    icon = icon('check') )
+                                multiple = TRUE)
                     )
               )
           )
