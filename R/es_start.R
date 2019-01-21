@@ -1,5 +1,3 @@
-options(spinner.type=8) # shinycssspinner type
-
 #' @title Start Easyshiny App.
 #' @description Create the Shiny server and UI code and start the server.
 #' The Shiny project will contain all previously added data and visualization.
@@ -49,6 +47,7 @@ es_start <- function(title='Easy Shiny Project') {
       if(length(visuals) > 0) {
         apply(visuals, 1, function(line) {
             output[[line$id]] <- eval(line$expr)
+            output[[paste0('win_', line$id)]] <- eval(line$expr)
           }
         )
       }

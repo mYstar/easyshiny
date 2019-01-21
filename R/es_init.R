@@ -1,7 +1,11 @@
+library(shinycssloaders)
+options(spinner.type=8) # shinycssspinner type
+
 appData <- new.env()
 
 #' Initializes and resets all datastructures used by easyshiny.
 #'
+#' @import shinycssloaders
 #' @export
 es_init <- function() {
   visuals <- matrix(ncol = 4)

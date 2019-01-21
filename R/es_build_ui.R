@@ -5,7 +5,10 @@
 #'
 #' @import shinydashboard
 #' @import shiny
+#' @importFrom magrittr %>%
 #' @importFrom rlist list.prepend
+#' @importFrom shinycssloaders withSpinner
+#' @importFrom shinyBS bsModal
 #' @return html + js code with the needed shiny directives
 es_build_ui <-  function(title, visuals) {
   dashboardPage(
@@ -39,10 +42,14 @@ es_build_ui <-  function(title, visuals) {
                     title=boxname,
                     apply( visuals, 1, function(vis) {
                       if(vis$tab==tab & vis$box == boxname) {
-                        plotOutput(outputId=vis$id)
+                        list(
+                          bsModal(paste0('win_', vis$id), '', paste0('link_', vis$id), size='large', plotOutput(outputId=paste0('win_',vis$id))),
+                          a( href='#', id=paste0('link_', vis$id), plotOutput(outputId=vis$id) %>% withSpinner() )
+                        )
                       }
                   } # 3rd apply (visuals)
-                 )
+                 ) %>%
+                unlist(recursive = FALSE)
              ) } } ) # 2nd lapply (boxes)
           ) } )  %>% # 1st lapply (tabs)
           list.prepend(
@@ -59,7 +66,7 @@ es_build_ui <-  function(title, visuals) {
                                     label = 'OK',
                                     icon = icon('check') )
                     )
-            )
+              )
           )
       ) # do.call
     )
