@@ -1,5 +1,5 @@
 ---
-title: "Example App"
+title: "Easyshiny"
 author: "Eric Starke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -16,18 +16,53 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r, echo=FALSE, results='asis'}
-library(easyshiny)
-library(ggplot2)
+Easyshiny is a package, that implements a shiny template for uploading and visualizing data. It tries to make the fill out process for this template as easy as possible. The goal is to make the difference between plotting data and showing it in a shiny app very small.
 
+To build the most barebone easyshiny app you need the following commands:
+
+```{r, eval=FALSE}
 es_init()
 
+es_start(title = 'Your title')
+```
+
+This builds a shinydashboard app with only an input tab. This tab can be used to upload data, but the data won't be used anywhere.
+To gain control over the uploaded files insert this between the statements above:
+
+```{r, eval=FALSE}
 es_read('bike_buyers.csv')
 
 es_add_plot({
-  ggplot(bike_buyers(), aes(x=Commute.Distance, fill=Purchased.Bike)) +
-    geom_bar(position = 'fill')
+  ggplot(bike_buyers(), aes(x=Age, y=Income)) +
+    geom_point() +
+    geom_smooth()
 }, tab = 'Bikes', box = 'Visualization')
+```
+
+This tells the app to expect a *bike_buyers.csv* file for further processing. It builds a reactive expression (See: shiny) that returns a dataframe. The expression can be used to build plots with the es_add_plot function. The function takes a code chunk, that creates a plot and also a corresoponding Tab and Box inside the apps structure can be defined.
+
+Additionally input objects can be defined via es_add_object and used in shiny fashion. An example is shown below.
+
+```{r, eval=FALSE}
+es_add_object({
+  textInput(inputId = "plotname", 
+            label='choose a name for the plot:',
+            value='plot 1')
+}, 'Bikes', 'Visualization')
+
+es_add_plot({
+  ggplot(bike_buyers(), aes(x=Commute.Distance, fill=Purchased.Bike)) +
+    geom_bar(position = 'fill') +
+    ggtitle(label =  input$plotname)
+}, tab = 'Bikes', box = 'Visualization')
+```
+
+This concludes the main features up until now. The whole app would be looking like this:
+
+```{r, eval=FALSE}
+es_init()
+
+es_read('bike_buyers.csv')
 
 es_add_plot({
   ggplot(bike_buyers(), aes(x=Age, y=Income)) +
@@ -35,5 +70,23 @@ es_add_plot({
     geom_smooth()
 }, tab = 'Bikes', box = 'Visualization')
 
-es_start(title = 'Bikes')
+es_add_object({
+  textInput(inputId = "plotname", 
+            label='choose a name for the plot:',
+            value='plot 1')
+}, 'Bikes', 'Visualization')
+
+es_add_plot({
+  ggplot(bike_buyers(), aes(x=Commute.Distance, fill=Purchased.Bike)) +
+    geom_bar(position = 'fill') +
+    ggtitle(label =  input$plotname)
+}, tab = 'Bikes', box = 'Visualization')
+
+es_start(title = 'Your title')
+```
+
+If you want to test the app itself use: 
+
+```{r, echo=TRUE}
+system.file("extdata", "bike_buyers.csv", package = "easyshiny")
 ```
