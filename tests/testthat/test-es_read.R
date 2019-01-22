@@ -14,13 +14,10 @@ test_that('list of input files is created correctly', {
   files <- get('files', easyshiny:::appData)
   expect_equal(nrow(files), 1)
   expect_equal(files[1,]$name, 'test1')
-  expect_equal(files[1,]$file, 'test1.csv')
 
   es_read('test2.csv')
   files <- get('files', easyshiny:::appData)
   expect_equal(nrow(files), 2)
   expect_equal(files[1,]$name, 'test1')
-  expect_equal(files[1,]$file, 'test1.csv')
   expect_equal(files[2,]$name, 'test2')
-  expect_equal(files[2,]$file, 'test2.csv')
 })

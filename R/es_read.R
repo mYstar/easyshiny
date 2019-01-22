@@ -84,7 +84,7 @@ es_add_setname <- function( simdata, setnames ) {
 #'
 #' @param filename the name of the file to read
 #'
-#' @return NULL
+#' @return a reader function for the console mode
 #' @export
 es_read <- function(filename) {
 

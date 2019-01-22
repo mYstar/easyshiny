@@ -40,15 +40,23 @@ es_build_ui <-  function(title, visuals) {
                     width = 12,
                     status = "info",
                     title=boxname,
-                    apply( visuals, 1, function(vis) {
-                      if(vis$tab==tab & vis$box == boxname) {
-                        list(
-                          bsModal(paste0('win_', vis$id), '', paste0('link_', vis$id), size='large', plotOutput(outputId=paste0('win_',vis$id))),
-                          a( href='#', id=paste0('link_', vis$id), plotOutput(outputId=vis$id) %>% withSpinner() )
-                        )
+                     apply( visuals, 1, function(vis) {
+                       if(vis$tab==tab & vis$box == boxname) {
+                         switch(vis$type,
+                                plot={
+                                  list(
+                                   bsModal(paste0('win_', vis$id), '', paste0('link_', vis$id), size='large', plotOutput(outputId=paste0('win_',vis$id))),
+                                   a( href='#', id=paste0('link_', vis$id), plotOutput(outputId=vis$id) %>% withSpinner() )
+                                  )
+                                },
+                                object={
+                                  list(
+                                    eval(vis$expr)
+                                  )
+                                }
+                         )
                       }
-                  } # 3rd apply (visuals)
-                 ) %>%
+                     } ) %>%  # 3rd apply (visuals)
                 unlist(recursive = FALSE)
              ) } } ) # 2nd lapply (boxes)
           ) } )  %>% # 1st lapply (tabs)

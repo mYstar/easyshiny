@@ -10,6 +10,9 @@ es_read(filename)
 \arguments{
 \item{filename}{the name of the file to read}
 }
+\value{
+a reader function for the console mode
+}
 \description{
 * .csv
 * .mds
