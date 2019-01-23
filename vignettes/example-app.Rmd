@@ -33,10 +33,10 @@ To gain control over the uploaded files insert this between the statements above
 es_read('bike_buyers.csv')
 
 es_add_plot({
-  ggplot(bike_buyers(), aes(x=Age, y=Income)) +
-    geom_point() +
-    geom_smooth()
+  ggplot(bike_buyers(), aes(x=Commute.Distance, fill=Purchased.Bike)) +
+    geom_bar(position = 'fill')
 }, tab = 'Bikes', box = 'Visualization')
+
 ```
 
 This tells the app to expect a *bike_buyers.csv* file for further processing. It builds a reactive expression (See: shiny) that returns a dataframe. The expression can be used to build plots with the es_add_plot function. The function takes a code chunk, that creates a plot and also a corresoponding Tab and Box inside the apps structure can be defined.
@@ -45,15 +45,20 @@ Additionally input objects can be defined via es_add_object and used in shiny fa
 
 ```{r, eval=FALSE}
 es_add_object({
-  textInput(inputId = "plotname", 
-            label='choose a name for the plot:',
-            value='plot 1')
+  sliderInput(inputId = "agespan",
+            label='choose an agespan:',
+            min=0,
+            max=90,
+            value=c(0,90)
+  )
 }, 'Bikes', 'Visualization')
 
 es_add_plot({
-  ggplot(bike_buyers(), aes(x=Commute.Distance, fill=Purchased.Bike)) +
-    geom_bar(position = 'fill') +
-    ggtitle(label =  input$plotname)
+  ggplot(
+    bike_buyers() %>% filter(Age >= input$agespan[1] & Age <= input$agespan[2]),
+    aes(x=Age, y=Income)) +
+      geom_point() +
+      geom_smooth()
 }, tab = 'Bikes', box = 'Visualization')
 ```
 
@@ -65,22 +70,31 @@ es_init()
 es_read('bike_buyers.csv')
 
 es_add_plot({
-  ggplot(bike_buyers(), aes(x=Age, y=Income)) +
-    geom_point() +
-    geom_smooth()
+  ggplot(bike_buyers(), aes(x=Commute.Distance, fill=Purchased.Bike)) +
+    geom_bar(position = 'fill')
 }, tab = 'Bikes', box = 'Visualization')
 
 es_add_object({
-  textInput(inputId = "plotname", 
-            label='choose a name for the plot:',
-            value='plot 1')
+  sliderInput(inputId = "agespan",
+            label='choose an agespan:',
+            min=0,
+            max=90,
+            value=c(0,90)
+  )
 }, 'Bikes', 'Visualization')
 
 es_add_plot({
-  ggplot(bike_buyers(), aes(x=Commute.Distance, fill=Purchased.Bike)) +
-    geom_bar(position = 'fill') +
-    ggtitle(label =  input$plotname)
+  ggplot(
+    bike_buyers() %>% filter(Age >= input$agespan[1] & Age <= input$agespan[2]),
+    aes(x=Age, y=Income)) +
+      geom_point() +
+      geom_smooth()
 }, tab = 'Bikes', box = 'Visualization')
+
+es_start(title = 'Your title')
+```
+
+If you want to test the app itself use: 
 
 es_start(title = 'Your title')
 ```
