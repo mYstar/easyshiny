@@ -39,5 +39,5 @@ test_that('combination of tabs and boxes', {
   es_add_plot({}, tab = 'tab 2', box = 'box 3')
   es_add_plot({}, tab = 'tab 3', box = 'box 3')
   ui <- easyshiny:::es_build_ui(title = 'test', visuals = get('visuals', easyshiny:::appData))
-  expect_known_hash(ui, 'ffc07177ed')
+  expect_known_hash(ui, '34a9495208')
 })

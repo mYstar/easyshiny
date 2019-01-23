@@ -32,33 +32,15 @@ es_build_ui <-  function(title, visuals) {
         )
       ),
       do.call(tabItems,
-          lapply( visuals[,'tab'] %>% unique(), function(tab) {
-            tabItem(tabName=tab,
-              lapply( visuals[,'box'] %>% unique(), function(boxname) {
-                if(boxname %in% visuals[visuals[,"tab"] == tab,, drop = F][,'box']) {
+          lapply( visuals[,'tab'] %>% unique(), function(tabname) {
+            tabItem(tabName=tabname,
+              lapply( visuals[visuals %>% mat_col('tab') == tabname,'box'] %>% unique(), function(boxname) {
                   box(
                     width = 12,
                     status = "info",
                     title=boxname,
-                     apply( visuals, 1, function(vis) {
-                       if(vis$tab==tab & vis$box == boxname) {
-                         switch(vis$type,
-                                plot={
-                                  list(
-                                   bsModal(paste0('win_', vis$id), '', paste0('link_', vis$id), size='large', plotOutput(outputId=paste0('win_',vis$id))),
-                                   a( href='#', id=paste0('link_', vis$id), plotOutput(outputId=vis$id) %>% withSpinner() )
-                                  )
-                                },
-                                object={
-                                  list(
-                                    eval(vis$expr)
-                                  )
-                                }
-                         )
-                      }
-                     } ) %>%  # 3rd apply (visuals)
-                unlist(recursive = FALSE)
-             ) } } ) # 2nd lapply (boxes)
+                    es_build_objects(visuals[visuals %>% mat_col('tab') == tabname & visuals %>% mat_col('box') == boxname, ,drop=FALSE])
+             ) } ) # 2nd lapply (boxes)
           ) } )  %>% # 1st lapply (tabs)
           list.prepend(
             tabItem(tabName='input',
@@ -73,4 +55,38 @@ es_build_ui <-  function(title, visuals) {
       ) # do.call
     )
   )
+}
+
+#' Builds the objects for the UI. To use in a box.
+#'
+#' @param objects a matrix of object descriptions (from the visuals)
+#'
+#' @return a list of shiny boxes
+es_build_objects <- function(objects) {
+  apply( objects, 1, function(obj) {
+    switch(obj$type,
+           plot={
+             list(
+               bsModal(paste0('win_', obj$id), '', paste0('link_', obj$id), size='large', plotOutput(outputId=paste0('win_',obj$id))),
+               a( href='#', id=paste0('link_', obj$id), plotOutput(outputId=obj$id) %>% withSpinner() )
+             )
+           },
+           object={
+             list(
+               eval(obj$expr)
+             )
+           }
+         )
+  } ) %>%
+  unlist(recursive = FALSE)
+}
+
+#' helper to extract a column from a matrix
+#'
+#' @param mat a matrix
+#' @param colname the name of the column to extract
+#'
+#' @return a vector with the data from the column
+mat_col <- function(mat, colname) {
+  unlist(mat[, colname])
 }
