@@ -4,7 +4,11 @@
 \alias{es_init}
 \title{Initializes and resets all datastructures used by easyshiny.}
 \usage{
-es_init()
+es_init(local_folder = NULL)
+}
+\arguments{
+\item{local_folder}{a folder on the computer running the server, containing
+input files to test the easyshiny program locally (console mode)}
 }
 \description{
 Initializes and resets all datastructures used by easyshiny.

@@ -10,12 +10,15 @@
 #' @export
 es_read_filesets <- function( folders ) {
 
+  if( !is.null(folders) )
   data.frame( datapath = dir(folders, full.names = TRUE) ) %>%
-    tbl_df() %>%
+    as_tibble() %>%
     mutate(datapath = datapath %>% as.character) %>%
     mutate( folder = dirname(datapath) ) %>%
     mutate( name = basename(datapath) ) %>%
     mutate( n = group_indices(., folder) )
+  else
+    NULL
 }
 
 #' Read a specific file from multiple sources and join to one data frame.
@@ -89,15 +92,17 @@ es_add_setname <- function( simdata, setnames ) {
 es_read <- function(filename) {
 
   files_table <- get('files', envir = appData)
+  file_basename <- strsplit(filename, split = '.', fixed = T)[[1]][1]
   files_table <- rbind(
     files_table,
     list(
-      name=strsplit(filename, split = '.', fixed = T)[[1]][1],
+      name=file_basename,
       reader=quote( reactive({es_read_files( input$files1 %>% mutate(n = 1), files[idx,]$name, function(data) {data} )}))
       )
     )
   assign('files', files_table, envir = appData)
 
-  reader <- function() { es_read_files( input$files1 %>% mutate(n = 1), files[idx,]$name, function(data) {data} ) }
+  console_fileset <- get('console_fileset', envir = appData)
+  reader <- function() { es_read_files( console_fileset, file_basename, function(data) {data} ) }
   reader
 }
