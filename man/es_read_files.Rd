@@ -13,10 +13,10 @@ es_read_files(filesets, filename, callback, ...)
 
 \item{callback}{(optional) a function to call on the read dataframe}
 
-\item{...}{arguments to pass on to \code{\link{read.csv}}}
+\item{...}{arguments to pass on to \code{read.csv}}
 }
 \value{
-a dataframe containing the read data
+a tibble containing the read data, NULL if the file is not found
 }
 \description{
 Read a specific file from multiple sources and join to one data frame.

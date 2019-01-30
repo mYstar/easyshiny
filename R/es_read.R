@@ -6,11 +6,11 @@
 #'
 #' @param folders an array of paths to folders containing the data to use
 #'
-#' @return a dtatframe in shiny fileinput format
+#' @return a dataframe in shiny fileinput format or NULL if the folder can not be found
 #' @export
 es_read_filesets <- function( folders ) {
 
-  if( !is.null(folders) )
+  if( !is.null(folders) && all( dir.exists(folders) ) )
   data.frame( datapath = dir(folders, full.names = TRUE) ) %>%
     as_tibble() %>%
     mutate(datapath = datapath %>% as.character) %>%
@@ -26,25 +26,33 @@ es_read_filesets <- function( folders ) {
 #' @param filesets one or more filesets containing the file
 #' @param filename the name of the file to use
 #' @param callback (optional) a function to call on the read dataframe
-#' @param ... arguments to pass on to \code{\link{read.csv}}
+#' @param ... arguments to pass on to \code{read.csv}
 #'
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by do filter tbl_df ungroup
 #'
-#' @return a dataframe containing the read data
+#' @return a tibble containing the read data, NULL if the file is not found
 es_read_files <- function( filesets, filename, callback,... ) {
+  if( !any( grepl(filename, filesets$name) ) )
+    return(NULL)
+
   filesets %>%
     group_by(n) %>%
     do( {
-        filedata <- filter(., name == paste0(filename, '.rds') )
-        if( filedata %>% nrow() != 0)
+        name_csv <- paste0(filename, '.csv')
+        name_rds <- paste0(filename, '.rds')
+        if(name_rds %in% .$name) {
+          filedata <- filter(., name ==  name_rds)
           result <- readRDS(filedata$datapath)
-        else {
-          filedata <- filter(., name == paste0(filename, '.csv') )
+        } else if(name_csv %in% .$name) {
+          filedata <- filter(., name == name_csv )
           result <- filedata$datapath %>%
             read.csv(..., as.is = TRUE) %>%
-            tbl_df %>%
+            as_tibble %>%
             callback()
+        } else {
+          # TODO: remove this, when filetype sticking is implemented
+          result <- tibble()
         }
         result
     } ) %>%
@@ -58,7 +66,7 @@ es_read_files <- function( filesets, filename, callback,... ) {
 #' @param callback see \code{\link{es_read_files}}
 #'
 #' @return see \code{\link{es_read_files}}
-es.read_exfiles <- function( filesets, filename, callback ) {
+es_read_exfiles <- function( filesets, filename, callback ) {
   base.data.read.files( filesets, filename, callback, header = FALSE )
 }
 

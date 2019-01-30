@@ -44,14 +44,15 @@ This tells the app to expect a *bike_buyers.csv* file for further processing. It
 Additionally input objects can be defined via es_add_object and used in shiny fashion. An example is shown below.
 
 ```{r, eval=FALSE}
-es_add_object({
-  sliderInput(inputId = "agespan",
-            label='choose an agespan:',
-            min=0,
-            max=90,
-            value=c(0,90)
-  )
-}, 'Bikes', 'Visualization')
+es_add_object(
+  sliderInput,
+  inputId = "agespan",
+  label='choose an agespan:',
+  min=0,
+  max=90,
+  value=c(0,90),
+  'Bikes',
+  'Visualization')
 
 es_add_plot({
   ggplot(
@@ -74,14 +75,15 @@ es_add_plot({
     geom_bar(position = 'fill')
 }, tab = 'Bikes', box = 'Visualization')
 
-es_add_object({
-  sliderInput(inputId = "agespan",
-            label='choose an agespan:',
-            min=0,
-            max=90,
-            value=c(0,90)
-  )
-}, 'Bikes', 'Visualization')
+es_add_object(
+  sliderInput,
+  inputId = "agespan",
+  label='choose an agespan:',
+  min=0,
+  max=90,
+  value=c(0,90),
+  'Bikes',
+  'Visualization')
 
 es_add_plot({
   ggplot(
@@ -96,6 +98,7 @@ es_start(title = 'Your title')
 
 If you want to test the app itself use: 
 
+```{r, eval=FALSE}
 es_start(title = 'Your title')
 ```
 
@@ -104,3 +107,52 @@ If you want to test the app itself use:
 ```{r, echo=TRUE}
 system.file("extdata", "bike_buyers.csv", package = "easyshiny")
 ```
+
+## Console mode
+
+There is a console mode, which makes it easier to develop your app. 
+It gives you access to the plots, as they would be rendered in the browser and to the input data in tibble form.
+To activate this feature you just have to provide a folder with example data to `es_init`.
+
+```{r, eval=FALSE}
+es_init(local_folder = 'path/to/sample/data')
+```
+
+After that it is possible to access the data and plots from the console.
+
+```{r, eval=FALSE}
+bike_buyers <- es_read('bike_buyers.csv')
+testplot <- es_add_plot({
+  ggplot(mpg, aes(cty, hwy)) +
+    geom_point()
+})
+```
+
+A function is returned, which gives the dataframe/plot when called. 
+It is also possible to view plots containing input values and using the sample data,
+as in this example:
+
+```{r, eval=FALSE}
+bike_buyers <- es_read('bike_buyers.csv')
+
+es_add_object(
+  sliderInput,
+  tab = 'Bikes',
+  box = 'Visualization',
+  inputId = "agespan",
+  label='choose an agespan:',
+  min=0,
+  max=90,
+  value=c(0,90)
+)
+
+income_age_plot <- es_add_plot({
+  ggplot(
+    bike_buyers() %>% filter(Age >= input$agespan[1] & Age <= input$agespan[2]),
+    aes(x=Age, y=Income)) +
+      geom_point() +
+      geom_smooth()
+}, tab = 'Bikes', box = 'Visualization')
+```
+
+The starting values of any input object will be used to create the plot.

@@ -1,4 +1,7 @@
 library(easyshiny)
+library(ggplot2)
+library(vdiffr)
+
 
 context('test adding elements to the shiny app')
 
@@ -21,4 +24,23 @@ test_that('list of visuals is created correctly', {
   expect_equal(class(visuals[1,]$expr), 'call')
   expect_equal(visuals[2,]$id, 'plot2')
   expect_equal(class(visuals[2,]$expr), 'call')
+
+  testplot <- es_add_plot({
+    ggplot(mpg, aes(cty, hwy)) +
+      geom_point()
+  })
+  expect_doppelganger('simple plot', testplot())
+
+})
+
+test_that('input objects are created correctly', {
+
+  es_init()
+  es_add_object(
+    textInput,
+    inputId = 'test',
+    value = 42
+  )
+  input <- get('input', envir = globalenv())
+  expect_equal(input$test, 42)
 })

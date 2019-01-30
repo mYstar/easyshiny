@@ -2,23 +2,23 @@
 % Please edit documentation in R/es_add.R
 \name{es_add_object}
 \alias{es_add_object}
-\title{Adds a shiny object to the UI. Useful for inputs (e.g. \link{\code{shiny::textInput}}).
-The input variables can be used in shiny style (\code{input$variable}) in the output functions.
-Do not use it for output objects, as they are registered in a different way.
-The specialized functions (e.g. \link{\code{easyshiny::add_plot}}) can be used for that.}
+\title{Adds a shiny object to the UI.}
 \usage{
-es_add_object(object, tab = "output", box = "objects")
+es_add_object(shinyfunction, tab = "output", box = "objects", ...)
 }
 \arguments{
-\item{object}{a shiny object to insert}
+\item{shinyfunction}{a shiny function to call to create the object}
 
 \item{tab}{tab to show the object in (new name creates tab)}
 
 \item{box}{box in the view area to show object in (new name creates box)}
+
+\item{...}{the arguments to deliver to the shiny function (\code{inputId} and \code{value} create
+an entry in the \code{input$list} useful for console mode)}
 }
 \description{
-Adds a shiny object to the UI. Useful for inputs (e.g. \link{\code{shiny::textInput}}).
+Useful for inputs (e.g. \code{textInput}).
 The input variables can be used in shiny style (\code{input$variable}) in the output functions.
 Do not use it for output objects, as they are registered in a different way.
-The specialized functions (e.g. \link{\code{easyshiny::add_plot}}) can be used for that.
+The specialized functions (e.g. \code{es_add_plot}) can be used for that.
 }

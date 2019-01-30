@@ -18,4 +18,6 @@ es_init <- function(local_folder = NULL) {
 
   assign('console_fileset', es_read_filesets(local_folder), envir = appData)
   assign('files', list(), envir = appData)
+
+  assign('input', list(), envir = globalenv())
 }

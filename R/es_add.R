@@ -52,35 +52,50 @@ es_add_plot <- function(plot, tab = 'Output', box = 'Result') {
       )
     )
   assign('visuals', vis_matrix, envir = appData)
+
+  return(function() {plot})
 }
 
-#' Adds a shiny object to the UI. Useful for inputs (e.g. \link{\code{shiny::textInput}}).
+#' @title  Adds a shiny object to the UI.
+#'
+#' @description Useful for inputs (e.g. \code{textInput}).
 #' The input variables can be used in shiny style (\code{input$variable}) in the output functions.
 #' Do not use it for output objects, as they are registered in a different way.
-#' The specialized functions (e.g. \link{\code{easyshiny::add_plot}}) can be used for that.
+#' The specialized functions (e.g. \code{es_add_plot}) can be used for that.
 #'
-#' @param object a shiny object to insert
+#' @param shinyfunction a shiny function to call to create the object
 #' @param tab tab to show the object in (new name creates tab)
 #' @param box box in the view area to show object in (new name creates box)
+#' @param ... the arguments to deliver to the shiny function (\code{inputId} and \code{value} create
+#' an entry in the \code{input$list} useful for console mode)
 #'
 #' @export
-es_add_object <- function(object, tab = 'output', box = 'objects') {
+es_add_object <- function(shinyfunction, tab = 'output', box = 'objects', ...) {
 
   # get an unique number for the plot
   vis_counter <- get('vis_counter', envir = appData)
   vis_counter <- vis_counter + 1
   assign('vis_counter', vis_counter, envir = appData)
 
+  # update the matrix of visuals
   vis_matrix <- get('visuals', envir = appData)
   vis_matrix <- rbind(
     vis_matrix,
     list(
       id=paste0('object_', vis_counter),
-      expr=substitute( object ),
+      expr=substitute( shinyfunction(...) ),
       tab=tab,
       box=box,
       type='object'
       )
     )
   assign('visuals', vis_matrix, envir = appData)
+
+  # add the default value to the input$ list in globalenv
+  arguments <- list(...)
+  if(!is.null(arguments$inputId) && !is.null(arguments$value)) {
+    input <- get('input', envir = globalenv())
+    input[[arguments$inputId]] <- arguments$value
+    assign('input', input, envir = globalenv())
+  }
 }
