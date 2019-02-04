@@ -2,17 +2,17 @@
 % Please edit documentation in R/es_add.R
 \name{es_add_plot}
 \alias{es_add_plot}
-\title{Adds a plot to the Easy Shiny app.}
+\title{Add Plot}
 \usage{
 es_add_plot(plot, tab = "Output", box = "Result")
 }
 \arguments{
-\item{plot}{expression, that generates a plot (as in \code{\link{shiny::renderPlot}})}
+\item{plot}{expression, that generates a plot (as in \code{\link{renderPlot}})}
 
 \item{tab}{tab to show the plot in (new name creates tab)}
 
 \item{box}{box in the view area to show plot in (new name creates box)}
 }
 \description{
-Adds a plot to the Easy Shiny app.
+Adds a plot to the Easy Shiny app and places it into a specific tab and box.
 }

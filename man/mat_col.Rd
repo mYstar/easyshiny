@@ -2,18 +2,18 @@
 % Please edit documentation in R/es_build_ui.R
 \name{mat_col}
 \alias{mat_col}
-\title{helper to extract a column from a matrix}
+\title{Extract column}
 \usage{
 mat_col(mat, colname)
 }
 \arguments{
-\item{mat}{a matrix}
+\item{mat}{a \code{\link{matrix}}}
 
 \item{colname}{the name of the column to extract}
 }
 \value{
-a vector with the data from the column
+a \code{\link{vector}} with the data from the column
 }
 \description{
-helper to extract a column from a matrix
+helper to extract a column from a \code{\link{matrix}}
 }

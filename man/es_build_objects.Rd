@@ -2,7 +2,7 @@
 % Please edit documentation in R/es_build_ui.R
 \name{es_build_objects}
 \alias{es_build_objects}
-\title{Builds the objects for the UI. To use in a box.}
+\title{Build Objects}
 \usage{
 es_build_objects(objects)
 }
@@ -10,8 +10,8 @@ es_build_objects(objects)
 \item{objects}{a matrix of object descriptions (from the visuals)}
 }
 \value{
-a list of shiny boxes
+a list of shiny \code{\link[shinydashboard]{box}}es
 }
 \description{
-Builds the objects for the UI. To use in a box.
+Builds the objects for the UI. To use in a \code{\link[shinydashboard]{box}}.
 }

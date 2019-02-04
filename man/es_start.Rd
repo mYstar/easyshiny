@@ -10,7 +10,7 @@ es_start(title = "Easy Shiny Project")
 \item{title}{The title to insert in the main menu.}
 }
 \value{
-The output from \code{\link{shiny::shinyApp}}.
+The output from \code{\link{shinyApp}}.
 }
 \description{
 Create the Shiny server and UI code and start the server.

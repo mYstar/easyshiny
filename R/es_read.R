@@ -1,16 +1,12 @@
-### --------------------------------------- ###
-### generic functions
-### --------------------------------------- ###
-
-# Reads a fileset from folder (shiny fileinput format)
+#' @title Read fileset
+#' @description Reads a fileset from folder (shiny \code{\link{fileInput}} format)
 #'
 #' @param folders an array of paths to folders containing the data to use
 #'
-#' @return a dataframe in shiny fileinput format or NULL if the folder can not be found
+#' @return a dataframe in shiny \code{\link{fileInput}} format or \code{NULL} if the folder can not be found
 #'
 #' @importFrom dplyr as_tibble mutate group_indices
 #' @importFrom magrittr %>%
-#' @export
 es_read_filesets <- function( folders ) {
 
   if( !is.null(folders) && all( dir.exists(folders) ) )
@@ -24,18 +20,19 @@ es_read_filesets <- function( folders ) {
     NULL
 }
 
-#' Read a specific file from multiple sources and join to one data frame.
+#' @title Read file
+#' @description Read a specific file from multiple sources in the fileset and join to one \code{\link[tibble]{tibble}}.
 #'
-#' @param filesets one or more filesets containing the file
+#' @param filesets a filesets containing one or more files with the name
 #' @param filename the name of the file to use
-#' @param prepare (optional) a function to call on to alter the read dataframe
-#' @param ... arguments to pass on to \code{read.csv}
+#' @param prepare (optional) a function to call on to alter the read \code{\link[tibble]{tibble}}
+#' @param ... arguments to pass on to \code{\link{read.csv}}
 #'
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by do filter as_tibble tibble ungroup
 #' @importFrom tools file_ext
 #'
-#' @return a tibble containing the read data, NULL if the file is not found
+#' @return a \code{\link[tibble]{tibble}} containing the read data, \code{NULL} if the file is not found
 es_read_files <- function( filesets, filename, callback = function(data) { data },... ) {
   if( !any( grepl(filename, filesets$name) ) )
     return(NULL)
@@ -61,45 +58,49 @@ es_read_files <- function( filesets, filename, callback = function(data) { data 
     ungroup
 }
 
-#' Wrapper for \code{\link{es_read_files}}. To use for reading files without header.
+#' @title Read without header
+#' @description Wrapper for \code{\link{es_read_files}}. To use for reading files without header.
 #'
-#' @param filesets see \code{\link{es_read_files}}
-#' @param filename see \code{\link{es_read_files}}
-#' @param callback see \code{\link{es_read_files}}
+#' @param ... use the params from \code{\link{es_read_files}}
 #'
 #' @return see \code{\link{es_read_files}}
-es_read_exfiles <- function( filesets, filename, callback ) {
-  base.data.read.files( filesets, filename, callback, header = FALSE )
+es_read_exfiles <- function( ... ) {
+  base.data.read.files( ..., header = FALSE )
 }
 
-#' Add setnames to a data frame using the group identifier n.
+#' @title Set the setnames
+#' @description Add setnames to a \code{\link[tibble]{tibble}} using the group identifier n.
 #'
-#' @param simdata a dataframe without setnames
-#' @param setnames a vector of setnames at least as long as n in the data frame
+#' @param data a \code{\link[tibble]{tibble}} without setnames, but containing a column named 'n' for grouping
+#' @param setnames a vector of setnames at least as long as n in the \code{\link[tibble]{tibble}}
 #'
-#' @return the altered data frame
-es_add_setname <- function( simdata, setnames ) {
+#' @return the altered \code{\link[tibble]{tibble}}
+#' @importFrom magrittr %>%
+#' @importFrom tibble tibble
+#' @importFrom dplyr row_number left_join
+es_add_setname <- function( data, setnames ) {
 
-  # create numbered DF from setnames
-  setnames <- data.frame(setname = setnames) %>%
-    mutate( n = row_number() ) %>%
-    tbl_df()
+  # create numbered tibble from setnames
+  setnames <- tibble(setname = setnames) %>%
+    mutate( n = row_number() )
 
   simdata %>%
     left_join( setnames )
 }
 
-#' Makes a file usable for user input. The file can then be supplied by the user at runtime and
+#' @title Create Filereader
+#' @description Makes a file usable for user input. The file can then be supplied by the user at runtime and
 #' is provided as function under the given name for visuals creation. The function is also created
 #' in the global Environment for usage in console mode. Understands:
 #'
 #' * .csv
+#'
 #' * .mds
 #'
 #' @param filename the name of the file to read
 #' @param readerId a name for the reader function, that can be used in the plots and console mode (default: derives the name from the filename, just cuts the ending)
 #'
-#' @return a reader function for the console mode
+#' @importFrom magrittr %>%
 #' @export
 es_read <- function(filename, readerId = NULL) {
 
@@ -120,5 +121,4 @@ es_read <- function(filename, readerId = NULL) {
   console_fileset <- get('console_fileset', envir = appData)
   reader <- function() { es_read_files( console_fileset, filename ) }
   assign(readerId, reader, envir = globalenv())
-  reader
 }

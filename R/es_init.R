@@ -2,7 +2,8 @@ library(shinycssloaders)
 
 appData <- new.env()
 
-#' Initializes and resets all datastructures used by easyshiny.
+#' @title Easyshiny Initialization
+#' @description  Initializes and resets all datastructures used by easyshiny.
 #'
 #' @param local_folder a folder on the computer running the server, containing
 #' input files to test the easyshiny program locally (console mode)

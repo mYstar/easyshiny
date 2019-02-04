@@ -2,7 +2,7 @@
 % Please edit documentation in R/es_add.R
 \name{es_summaries_to_html}
 \alias{es_summaries_to_html}
-\title{Converts a list containing output from \code{\link{summary}} into a html format usable by shiny.}
+\title{Convert summaries}
 \usage{
 es_summaries_to_html(summaries)
 }

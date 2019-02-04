@@ -1,7 +1,8 @@
 library(dplyr)
 library(shiny)
 
-#' Converts a list containing output from \code{\link{summary}} into a html format usable by shiny.
+#' @title Convert summaries
+#' @description Converts a list containing output from \code{\link{summary}} into a html format usable by shiny.
 #'
 #' @param summaries a list of summary objects
 #'
@@ -25,9 +26,10 @@ es_summaries_to_html <- function( summaries ) {
     paste0( collapse = ' ' )
 }
 
-#' Adds a plot to the Easy Shiny app.
+#' @title Add Plot
+#' @description Adds a plot to the Easy Shiny app and places it into a specific tab and box.
 #'
-#' @param plot expression, that generates a plot (as in \code{\link{shiny::renderPlot}})
+#' @param plot expression, that generates a plot (as in \code{\link{renderPlot}})
 #' @param tab tab to show the plot in (new name creates tab)
 #' @param box box in the view area to show plot in (new name creates box)
 #'
@@ -58,10 +60,10 @@ es_add_plot <- function(plot, tab = 'Output', box = 'Result') {
 
 #' @title  Adds a shiny object to the UI.
 #'
-#' @description Useful for inputs (e.g. \code{textInput}).
+#' @description Useful for inputs (e.g. \code{\link{textInput}}).
 #' The input variables can be used in shiny style (\code{input$variable}) in the output functions.
 #' Do not use it for output objects, as they are registered in a different way.
-#' The specialized functions (e.g. \code{es_add_plot}) can be used for that.
+#' The specialized functions (e.g. \code{\link{es_add_plot}}) can be used for that.
 #'
 #' @param shinyfunction a shiny function to call to create the object
 #' @param tab tab to show the object in (new name creates tab)

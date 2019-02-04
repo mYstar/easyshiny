@@ -4,7 +4,7 @@
 #'
 #' @param title The title to insert in the main menu.
 #'
-#' @return The output from \code{\link{shiny::shinyApp}}.
+#' @return The output from \code{\link{shinyApp}}.
 #' @importFrom shiny shinyApp
 #' @importFrom dplyr tbl_df mutate
 #' @importFrom magrittr %>%

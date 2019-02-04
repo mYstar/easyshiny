@@ -2,7 +2,7 @@
 % Please edit documentation in R/es_build_ui.R
 \name{es_build_ui}
 \alias{es_build_ui}
-\title{Builds the UI skeleton for the app.}
+\title{Build UI}
 \usage{
 es_build_ui(title, visuals)
 }

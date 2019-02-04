@@ -2,7 +2,7 @@
 % Please edit documentation in R/es_init.R
 \name{es_init}
 \alias{es_init}
-\title{Initializes and resets all datastructures used by easyshiny.}
+\title{Easyshiny Initialization}
 \usage{
 es_init(local_folder = NULL)
 }

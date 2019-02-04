@@ -2,18 +2,18 @@
 % Please edit documentation in R/es_read.R
 \name{es_add_setname}
 \alias{es_add_setname}
-\title{Add setnames to a data frame using the group identifier n.}
+\title{Set the setnames}
 \usage{
-es_add_setname(simdata, setnames)
+es_add_setname(data, setnames)
 }
 \arguments{
-\item{simdata}{a dataframe without setnames}
+\item{data}{a \code{\link[tibble]{tibble}} without setnames, but containing a column named 'n' for grouping}
 
-\item{setnames}{a vector of setnames at least as long as n in the data frame}
+\item{setnames}{a vector of setnames at least as long as n in the \code{\link[tibble]{tibble}}}
 }
 \value{
-the altered data frame
+the altered \code{\link[tibble]{tibble}}
 }
 \description{
-Add setnames to a data frame using the group identifier n.
+Add setnames to a \code{\link[tibble]{tibble}} using the group identifier n.
 }

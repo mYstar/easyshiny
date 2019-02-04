@@ -1,4 +1,5 @@
-#' Builds the UI skeleton for the app.
+#' @title Build UI
+#' @description Builds the UI skeleton for the app.
 #'
 #' @param title The title to insert in the main menu.
 #' @param visuals The visuals to use for the UI
@@ -57,11 +58,12 @@ es_build_ui <-  function(title, visuals) {
   )
 }
 
-#' Builds the objects for the UI. To use in a box.
+#' @title Build Objects
+#' @description Builds the objects for the UI. To use in a \code{\link[shinydashboard]{box}}.
 #'
 #' @param objects a matrix of object descriptions (from the visuals)
 #'
-#' @return a list of shiny boxes
+#' @return a list of shiny \code{\link[shinydashboard]{box}}es
 es_build_objects <- function(objects) {
   apply( objects, 1, function(obj) {
     switch(obj$type,
@@ -81,12 +83,13 @@ es_build_objects <- function(objects) {
   unlist(recursive = FALSE)
 }
 
-#' helper to extract a column from a matrix
+#' @title Extract column
+#' @description helper to extract a column from a \code{\link{matrix}}
 #'
-#' @param mat a matrix
+#' @param mat a \code{\link{matrix}}
 #' @param colname the name of the column to extract
 #'
-#' @return a vector with the data from the column
+#' @return a \code{\link{vector}} with the data from the column
 mat_col <- function(mat, colname) {
   unlist(mat[, colname])
 }

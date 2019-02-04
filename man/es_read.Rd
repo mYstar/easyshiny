@@ -2,9 +2,7 @@
 % Please edit documentation in R/es_read.R
 \name{es_read}
 \alias{es_read}
-\title{Makes a file usable for user input. The file can then be supplied by the user at runtime and
-is provided as function under the given name for visuals creation. The function is also created
-in the global Environment for usage in console mode. Understands:}
+\title{Create Filereader}
 \usage{
 es_read(filename, readerId = NULL)
 }
@@ -13,10 +11,12 @@ es_read(filename, readerId = NULL)
 
 \item{readerId}{a name for the reader function, that can be used in the plots and console mode (default: derives the name from the filename, just cuts the ending)}
 }
-\value{
-a reader function for the console mode
-}
 \description{
+Makes a file usable for user input. The file can then be supplied by the user at runtime and
+is provided as function under the given name for visuals creation. The function is also created
+in the global Environment for usage in console mode. Understands:
+
 * .csv
+
 * .mds
 }

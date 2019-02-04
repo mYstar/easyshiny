@@ -2,16 +2,12 @@
 % Please edit documentation in R/es_read.R
 \name{es_read_exfiles}
 \alias{es_read_exfiles}
-\title{Wrapper for \code{\link{es_read_files}}. To use for reading files without header.}
+\title{Read without header}
 \usage{
-es_read_exfiles(filesets, filename, callback)
+es_read_exfiles(...)
 }
 \arguments{
-\item{filesets}{see \code{\link{es_read_files}}}
-
-\item{filename}{see \code{\link{es_read_files}}}
-
-\item{callback}{see \code{\link{es_read_files}}}
+\item{...}{use the params from \code{\link{es_read_files}}}
 }
 \value{
 see \code{\link{es_read_files}}
