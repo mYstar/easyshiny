@@ -2,7 +2,7 @@
 % Please edit documentation in R/es_filechecks.R
 \name{es_fileset_present}
 \alias{es_fileset_present}
-\title{Checks if a fileset has been uploaded. Used when dynamically loading the upload fields.}
+\title{Check for Fileset}
 \usage{
 es_fileset_present(filesets, setnumber)
 }

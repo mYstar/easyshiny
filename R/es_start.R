@@ -11,6 +11,9 @@
 #' @export
 es_start <- function(title='Easy Shiny Project') {
 
+  # argument checks
+  assertString(title)
+
   files <- get('files', envir = appData)
   visuals <- get('visuals', envir = appData)
 

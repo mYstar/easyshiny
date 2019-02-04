@@ -2,7 +2,7 @@
 % Please edit documentation in R/es_filechecks.R
 \name{es_file_present}
 \alias{es_file_present}
-\title{Checks for the existence of a file in a fileset.}
+\title{Check for File}
 \usage{
 es_file_present(filesets, setnumber, filename)
 }
@@ -14,7 +14,7 @@ es_file_present(filesets, setnumber, filename)
 \item{filename}{the name of the desired file}
 }
 \value{
-a boolean value (TRUE if the file exists, else FALSE)
+a boolean value (\code{TRUE} if the file exists, else \code{FALSE})
 }
 \description{
 Checks for the existence of a file in a fileset.

@@ -5,9 +5,16 @@
 #'
 #' @return a dataframe in shiny \code{\link{fileInput}} format or \code{NULL} if the folder can not be found
 #'
+#' @importFrom checkmate assert check_array
 #' @importFrom dplyr as_tibble mutate group_indices
 #' @importFrom magrittr %>%
 es_read_filesets <- function( folders ) {
+  # argument checking
+  assert(
+    check_array(folders, mode = 'character'),
+    check_null(folders),
+    check_directory_exists(folders, access = 'r')
+  )
 
   if( !is.null(folders) && all( dir.exists(folders) ) )
   data.frame( datapath = dir(folders, full.names = TRUE) ) %>%
@@ -28,12 +35,19 @@ es_read_filesets <- function( folders ) {
 #' @param prepare (optional) a function to call on to alter the read \code{\link[tibble]{tibble}}
 #' @param ... arguments to pass on to \code{\link{read.csv}}
 #'
+#' @importFrom checkmate assert_data_frame assert_subset assert_string assert_function
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by do filter as_tibble tibble ungroup
 #' @importFrom tools file_ext
 #'
 #' @return a \code{\link[tibble]{tibble}} containing the read data, \code{NULL} if the file is not found
-es_read_files <- function( filesets, filename, callback = function(data) { data },... ) {
+es_read_files <- function( filesets, filename, prepare = function(data) { data },... ) {
+  # parameter checking
+  assert_data_frame(filesets, col.names = 'named')
+  assert_subset(c('datapath', 'folder', 'name', 'n'), colnames(filesets))
+  assert_string(filename, min.chars = 1, pattern = '.*\\.csv|.*\\.rds')
+  assert_function(prepare, nargs = 1)
+
   if( !any( grepl(filename, filesets$name) ) )
     return(NULL)
 
@@ -48,7 +62,7 @@ es_read_files <- function( filesets, filename, callback = function(data) { data 
           result <- filedata$datapath %>%
             read.csv(..., as.is = TRUE) %>%
             as_tibble %>%
-            callback()
+            prepare()
         } else {
           # TODO: remove this, when filetype sticking is implemented
           result <- tibble()
@@ -75,10 +89,16 @@ es_read_exfiles <- function( ... ) {
 #' @param setnames a vector of setnames at least as long as n in the \code{\link[tibble]{tibble}}
 #'
 #' @return the altered \code{\link[tibble]{tibble}}
+#'
+#' @importFrom checkmate assert_tibble assert_subset assert_vector
 #' @importFrom magrittr %>%
 #' @importFrom tibble tibble
 #' @importFrom dplyr row_number left_join
 es_add_setname <- function( data, setnames ) {
+  # parameter checking
+  assert_tibble(data, min.cols = 1, col.names = T)
+  assert_subset(c('n'), colnames(data))
+  assert_vector(setnames, min.len = 1)
 
   # create numbered tibble from setnames
   setnames <- tibble(setname = setnames) %>%
@@ -100,9 +120,13 @@ es_add_setname <- function( data, setnames ) {
 #' @param filename the name of the file to read
 #' @param readerId a name for the reader function, that can be used in the plots and console mode (default: derives the name from the filename, just cuts the ending)
 #'
+#' @importFrom checkmate assert_string
 #' @importFrom magrittr %>%
 #' @export
 es_read <- function(filename, readerId = NULL) {
+  # parameter checking
+  assert_string(filename, pattern = '.*\\.csv|.*\\.rds')
+  assert_string(readerId, null.ok = T)
 
   files_table <- get('files', envir = appData)
   if( is.null(readerId) )

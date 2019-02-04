@@ -1,14 +1,18 @@
-library(dplyr)
-library(shiny)
-
 #' @title Convert summaries
 #' @description Converts a list containing output from \code{\link{summary}} into a html format usable by shiny.
 #'
 #' @param summaries a list of summary objects
 #'
 #' @return html: a paragraph for every summary containing the computed values
+#'
+#' @importFrom checkmate assert_list
+#' @importFrom magrittr %>%
+#' @importFrom dplyr rowwise mutate
 #' @export
 es_summaries_to_html <- function( summaries ) {
+  # check arguments
+  assert_list(summaries, types = c('summaryDefault'), any.missing = F, min.len = 1)
+
   # build the hmtl output
   summaries <- summaries %>%
     rowwise() %>%
@@ -33,8 +37,12 @@ es_summaries_to_html <- function( summaries ) {
 #' @param tab tab to show the plot in (new name creates tab)
 #' @param box box in the view area to show plot in (new name creates box)
 #'
+#' @importFrom checkmate assert_string
 #' @export
 es_add_plot <- function(plot, tab = 'Output', box = 'Result') {
+  # argument check
+  assert_string(tab)
+  assert_string(box)
 
   # get an unique number for the plot
   vis_counter <- get('vis_counter', envir = appData)
@@ -71,8 +79,13 @@ es_add_plot <- function(plot, tab = 'Output', box = 'Result') {
 #' @param ... the arguments to deliver to the shiny function (\code{inputId} and \code{value} create
 #' an entry in the \code{input$list} useful for console mode)
 #'
+#' @importFrom checkmate assert_string assert_function
 #' @export
 es_add_object <- function(shinyfunction, tab = 'output', box = 'objects', ...) {
+  # argument check
+  assert_function(shinyfunction, args = c('inputId', 'label'))
+  assert_string(tab)
+  assert_string(box)
 
   # get an unique number for the plot
   vis_counter <- get('vis_counter', envir = appData)

@@ -19,3 +19,10 @@ test_that('global vars are created and deleted', {
 
   expect_equal(get('vis_counter', easyshiny:::appData), 0)
 })
+
+test_that('values are checked', {
+  es_init(local_folder = '/tmp')
+  es_init(local_folder = NULL)
+  expect_error(es_init(local_folder = '/unknown'))
+  expect_error(es_init(local_folder = NA))
+} )

@@ -40,8 +40,7 @@ test_that('filesets are read correctly', {
   test_fs <- es_read_filesets(NULL)
   expect_null(test_fs)
 
-  test_fs <- es_read_filesets('~/non_existing_folder')
-  expect_null(test_fs)
+  expect_error(es_read_filesets('~/non_existing_folder'))
 
   test_fs <- es_read_filesets('data/Exp_14_09_standard/')
   expect_equal(length(test_fs), 4)
@@ -61,8 +60,8 @@ test_that('filesets are read correctly', {
 test_that('filereader reads correctly', {
 
   test_fs <- es_read_filesets('data/Exp_14_09_standard/')
-  test_tbl <- easyshiny:::es_read_files(test_fs, 'nonexistent', function(data){data})
-  expect_null(test_tbl)
+  expect_error(easyshiny:::es_read_files(test_fs, 'nonexistent', function(data){data}))
+  expect_null(easyshiny:::es_read_files(test_fs, 'nonexistent.csv', function(data){data}))
 
   test_tbl <- easyshiny:::es_read_files(test_fs, 'statistic_qc_buffer.csv', function(data){data})
   expect_true('tbl_df' %in% class(test_tbl))

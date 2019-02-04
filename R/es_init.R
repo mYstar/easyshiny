@@ -9,8 +9,15 @@ appData <- new.env()
 #' input files to test the easyshiny program locally (console mode)
 #'
 #' @import shinycssloaders
+#' @importFrom checkmate assert check_directory_exists check_null
 #' @export
 es_init <- function(local_folder = NULL) {
+  # argument checks
+  assert(
+    check_directory_exists(local_folder, access = 'r'),
+    check_null(local_folder)
+  )
+
   visuals <- matrix(ncol = 5)
   colnames(visuals) <- c('id', 'expr', 'tab', 'box', 'type')
   visuals <- visuals[!is.na(visuals[,'id']),]

@@ -4,7 +4,7 @@
 \alias{es_read_files}
 \title{Read file}
 \usage{
-es_read_files(filesets, filename, callback = function(data) {     data },
+es_read_files(filesets, filename, prepare = function(data) {     data },
   ...)
 }
 \arguments{
@@ -12,9 +12,9 @@ es_read_files(filesets, filename, callback = function(data) {     data },
 
 \item{filename}{the name of the file to use}
 
-\item{...}{arguments to pass on to \code{\link{read.csv}}}
-
 \item{prepare}{(optional) a function to call on to alter the read \code{\link[tibble]{tibble}}}
+
+\item{...}{arguments to pass on to \code{\link{read.csv}}}
 }
 \value{
 a \code{\link[tibble]{tibble}} containing the read data, \code{NULL} if the file is not found
