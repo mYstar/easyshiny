@@ -4,16 +4,17 @@
 \alias{es_read_files}
 \title{Read a specific file from multiple sources and join to one data frame.}
 \usage{
-es_read_files(filesets, filename, callback, ...)
+es_read_files(filesets, filename, callback = function(data) {     data },
+  ...)
 }
 \arguments{
 \item{filesets}{one or more filesets containing the file}
 
 \item{filename}{the name of the file to use}
 
-\item{callback}{(optional) a function to call on the read dataframe}
-
 \item{...}{arguments to pass on to \code{read.csv}}
+
+\item{prepare}{(optional) a function to call on to alter the read dataframe}
 }
 \value{
 a tibble containing the read data, NULL if the file is not found

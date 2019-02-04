@@ -21,7 +21,7 @@ es_start <- function(title='Easy Shiny Project') {
       if(nrow(files) > 0) {
         for(idx in 1:nrow(files)) {
           assign(
-            files[idx,]$name,
+            files[idx,]$id,
             eval(files[idx,]$reader)
           )
         }

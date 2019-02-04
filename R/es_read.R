@@ -7,6 +7,9 @@
 #' @param folders an array of paths to folders containing the data to use
 #'
 #' @return a dataframe in shiny fileinput format or NULL if the folder can not be found
+#'
+#' @importFrom dplyr as_tibble mutate group_indices
+#' @importFrom magrittr %>%
 #' @export
 es_read_filesets <- function( folders ) {
 
@@ -25,27 +28,26 @@ es_read_filesets <- function( folders ) {
 #'
 #' @param filesets one or more filesets containing the file
 #' @param filename the name of the file to use
-#' @param callback (optional) a function to call on the read dataframe
+#' @param prepare (optional) a function to call on to alter the read dataframe
 #' @param ... arguments to pass on to \code{read.csv}
 #'
 #' @importFrom magrittr %>%
-#' @importFrom dplyr group_by do filter tbl_df ungroup
+#' @importFrom dplyr group_by do filter as_tibble tibble ungroup
+#' @importFrom tools file_ext
 #'
 #' @return a tibble containing the read data, NULL if the file is not found
-es_read_files <- function( filesets, filename, callback,... ) {
+es_read_files <- function( filesets, filename, callback = function(data) { data },... ) {
   if( !any( grepl(filename, filesets$name) ) )
     return(NULL)
 
   filesets %>%
     group_by(n) %>%
     do( {
-        name_csv <- paste0(filename, '.csv')
-        name_rds <- paste0(filename, '.rds')
-        if(name_rds %in% .$name) {
-          filedata <- filter(., name ==  name_rds)
+        if(file_ext(filename) == 'rds') {
+          filedata <- filter(., name ==  filename)
           result <- readRDS(filedata$datapath)
-        } else if(name_csv %in% .$name) {
-          filedata <- filter(., name == name_csv )
+        } else if(file_ext(filename) == 'csv') {
+          filedata <- filter(., name == filename )
           result <- filedata$datapath %>%
             read.csv(..., as.is = TRUE) %>%
             as_tibble %>%
@@ -88,29 +90,35 @@ es_add_setname <- function( simdata, setnames ) {
 }
 
 #' Makes a file usable for user input. The file can then be supplied by the user at runtime and
-#' is provided under its name for visuals creation. Understands:
+#' is provided as function under the given name for visuals creation. The function is also created
+#' in the global Environment for usage in console mode. Understands:
 #'
 #' * .csv
 #' * .mds
 #'
 #' @param filename the name of the file to read
+#' @param readerId a name for the reader function, that can be used in the plots and console mode (default: derives the name from the filename, just cuts the ending)
 #'
 #' @return a reader function for the console mode
 #' @export
-es_read <- function(filename) {
+es_read <- function(filename, readerId = NULL) {
 
   files_table <- get('files', envir = appData)
-  file_basename <- strsplit(filename, split = '.', fixed = T)[[1]][1]
+  if( is.null(readerId) )
+    readerId <- strsplit(filename, split = '.', fixed = T)[[1]][1]
+
   files_table <- rbind(
     files_table,
     list(
-      name=file_basename,
-      reader=quote( reactive({es_read_files( input$files1 %>% mutate(n = 1), files[idx,]$name, function(data) {data} )}))
+      id=readerId,
+      name=filename,
+      reader=quote( reactive({es_read_files( input$files1 %>% mutate(n = 1), files[idx,]$name )}))
       )
     )
   assign('files', files_table, envir = appData)
 
   console_fileset <- get('console_fileset', envir = appData)
-  reader <- function() { es_read_files( console_fileset, file_basename, function(data) {data} ) }
+  reader <- function() { es_read_files( console_fileset, filename ) }
+  assign(readerId, reader, envir = globalenv())
   reader
 }

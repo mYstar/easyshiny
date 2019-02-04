@@ -13,15 +13,18 @@ test_that('list of input files is created correctly', {
   es_read('test1.csv')
   files <- get('files', easyshiny:::appData)
   expect_equal(nrow(files), 1)
-  expect_equal(files[1,]$name, 'test1')
+  expect_equal(files[1,]$name, 'test1.csv')
+  expect_equal(files[1,]$id, 'test1')
 
   es_read('test2.csv')
   files <- get('files', easyshiny:::appData)
   expect_equal(nrow(files), 2)
-  expect_equal(files[1,]$name, 'test1')
-  expect_equal(files[2,]$name, 'test2')
+  expect_equal(files[1,]$name, 'test1.csv')
+  expect_equal(files[1,]$id, 'test1')
+  expect_equal(files[2,]$name, 'test2.csv')
+  expect_equal(files[2,]$id, 'test2')
 
-  testreader <- es_read('statistic_machines.csv')
+  es_read(filename = 'statistic_machines.csv', readerId = 'testreader')
   test_machines <- testreader()
   expect_true('tbl_df' %in% class(test_machines))
   write_feather(test_machines, 'data/tmp/Exp_14_09_standard_machines.feather')
@@ -61,7 +64,7 @@ test_that('filereader reads correctly', {
   test_tbl <- easyshiny:::es_read_files(test_fs, 'nonexistent', function(data){data})
   expect_null(test_tbl)
 
-  test_tbl <- easyshiny:::es_read_files(test_fs, 'statistic_qc_buffer', function(data){data})
+  test_tbl <- easyshiny:::es_read_files(test_fs, 'statistic_qc_buffer.csv', function(data){data})
   expect_true('tbl_df' %in% class(test_tbl))
   write_feather(test_tbl, 'data/tmp/Exp_14_09_standard_qc.feather')
   checkreturn <- system(
