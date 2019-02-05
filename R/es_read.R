@@ -44,7 +44,7 @@ es_read_filesets <- function( folders ) {
 es_read_files <- function( filesets, filename, prepare = function(data) { data },... ) {
   # parameter checking
   assert_data_frame(filesets, col.names = 'named')
-  assert_subset(c('datapath', 'folder', 'name', 'n'), colnames(filesets))
+  assert_subset(c('datapath', 'name', 'n'), colnames(filesets))
   assert_string(filename, min.chars = 1, pattern = '.*\\.csv|.*\\.rds')
   assert_function(prepare, nargs = 1)
 

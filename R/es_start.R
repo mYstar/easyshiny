@@ -33,7 +33,7 @@ es_start <- function(title='Easy Shiny Project') {
       # render all the visuals
       if(length(visuals) > 0) {
         apply(visuals, 1, function(line) {
-          if(line$type == 'plot') {
+          if(line$type == 'output') {
             output[[line$id]] <- eval(line$expr)
             output[[paste0('win_', line$id)]] <- eval(line$expr)
 

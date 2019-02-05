@@ -64,13 +64,19 @@ es_build_ui <-  function(title, visuals) {
 #' @param objects a matrix of object descriptions (from the visuals)
 #'
 #' @return a list of shiny \code{\link[shinydashboard]{box}}es
+#'
+#' @importFrom magrittr %>%
+#' @importFrom shiny a
+#' @importFrom shinycssloaders withSpinner
+#' @importFrom shinyBS bsModal
 es_build_objects <- function(objects) {
   apply( objects, 1, function(obj) {
     switch(obj$type,
-           plot={
+           output={
+             ui_function <- obj$ui_func
              list(
-               bsModal(paste0('win_', obj$id), '', paste0('link_', obj$id), size='large', plotOutput(outputId=paste0('win_',obj$id))),
-               a( href='#', id=paste0('link_', obj$id), plotOutput(outputId=obj$id) %>% withSpinner() )
+               bsModal(paste0('win_', obj$id), '', paste0('link_', obj$id), size='large', ui_function(outputId=paste0('win_',obj$id))),
+               a( href='#', id=paste0('link_', obj$id), ui_function(outputId=obj$id) %>% withSpinner() )
              )
            },
            object={

@@ -18,8 +18,8 @@ es_init <- function(local_folder = NULL) {
     check_null(local_folder)
   )
 
-  visuals <- matrix(ncol = 5)
-  colnames(visuals) <- c('id', 'expr', 'tab', 'box', 'type')
+  visuals <- matrix(ncol = 6)
+  colnames(visuals) <- c('id', 'expr', 'tab', 'box', 'ui_func', 'type')
   visuals <- visuals[!is.na(visuals[,'id']),]
   assign('visuals', visuals, envir = appData)
   assign('vis_counter', 0, envir = appData)
