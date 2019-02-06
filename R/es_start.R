@@ -5,14 +5,15 @@
 #' @param title The title to insert in the main menu.
 #'
 #' @return The output from \code{\link{shinyApp}}.
+#' @importFrom checkmate assert_string
 #' @importFrom shiny shinyApp
-#' @importFrom dplyr tbl_df mutate
+#' @importFrom dplyr mutate
 #' @importFrom magrittr %>%
 #' @export
 es_start <- function(title='Easy Shiny Project') {
 
   # argument checks
-  assertString(title)
+  assert_string(title)
 
   files <- get('files', envir = appData)
   visuals <- get('visuals', envir = appData)

@@ -1,15 +1,3 @@
-# internal data structure
-# is used to determine the right UI output element for each es_add_output call
-translate_output_UI <- list(
-  renderPlot = plotOutput,
-  renderDataTable = dataTableOutput,
-  renderImage = imageOutput,
-  renderPrint = verbatimTextOutput,
-  renderTable = tableOutput,
-  renderText = textOutput,
-  renderUI = htmlOutput
-)
-
 #' @title Convert summaries
 #' @description Converts a list containing output from \code{\link{summary}} into a html format usable by shiny.
 #'
@@ -54,6 +42,7 @@ es_summaries_to_html <- function( summaries ) {
 #' @param outputId (optional) if given, defines a function in global environment, that generates the plot
 #'
 #' @importFrom checkmate assert_string assert_function
+#' @importFrom shiny plotOutput dataTableOutput imageOutput verbatimTextOutput tableOutput textOutput htmlOutput
 #' @export
 es_add_output <- function(renderFunction, expr, tab = 'Output', box = 'Result', outputId = NULL, ...) {
   # argument check
@@ -61,6 +50,18 @@ es_add_output <- function(renderFunction, expr, tab = 'Output', box = 'Result', 
   assert_string(tab)
   assert_string(box)
   assert_string(outputId, null.ok = T)
+
+  # internal data structure
+  # is used to determine the right UI output element for each es_add_output call
+  translate_output_UI <- list(
+    renderPlot = plotOutput,
+    renderDataTable = dataTableOutput,
+    renderImage = imageOutput,
+    renderPrint = verbatimTextOutput,
+    renderTable = tableOutput,
+    renderText = textOutput,
+    renderUI = htmlOutput
+  )
 
   # determine UI element
   render_function_name <- as.character(substitute(renderFunction))
@@ -95,7 +96,7 @@ es_add_output <- function(renderFunction, expr, tab = 'Output', box = 'Result', 
 #' @description Useful for inputs (e.g. \code{\link{textInput}}).
 #' The input variables can be used in shiny style (\code{input$variable}) in the output functions.
 #' Do not use it for output objects, as they are registered in a different way.
-#' The specialized functions (e.g. \code{\link{es_add_plot}}) can be used for that.
+#' The specialized functions (e.g. \code{\link{es_add_output}}) can be used for that.
 #'
 #' @param shinyfunction a shiny function to call to create the object
 #' @param tab tab to show the object in (new name creates tab)

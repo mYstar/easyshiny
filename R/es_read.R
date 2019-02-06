@@ -6,7 +6,8 @@
 #' @return a dataframe in shiny \code{\link{fileInput}} format or \code{NULL} if the folder can not be found
 #'
 #' @importFrom checkmate assert check_array
-#' @importFrom dplyr as_tibble mutate group_indices
+#' @importFrom tibble as_tibble
+#' @importFrom dplyr mutate group_indices
 #' @importFrom magrittr %>%
 es_read_filesets <- function( folders ) {
   # argument checking
@@ -35,9 +36,11 @@ es_read_filesets <- function( folders ) {
 #' @param prepare (optional) a function to call on to alter the read \code{\link[tibble]{tibble}}
 #' @param ... arguments to pass on to \code{\link{read.csv}}
 #'
-#' @importFrom checkmate assert_data_frame assert_subset assert_string assert_function
+#' @importFrom checkmate assert_data_frame assert_subset expect_string assert_function test_choice check_choice
 #' @importFrom magrittr %>%
-#' @importFrom dplyr group_by do filter as_tibble tibble ungroup
+#' @importFrom utils read.csv
+#' @importFrom tibble as_tibble
+#' @importFrom dplyr group_by do filter ungroup
 #' @importFrom tools file_ext
 #'
 #' @return a \code{\link[tibble]{tibble}} containing the read data, \code{NULL} if the file is not found
@@ -45,31 +48,32 @@ es_read_files <- function( filesets, filename, prepare = function(data) { data }
   # parameter checking
   assert_data_frame(filesets, col.names = 'named')
   assert_subset(c('datapath', 'name', 'n'), colnames(filesets))
-  assert_string(filename, min.chars = 1, pattern = '.*\\.csv|.*\\.rds')
+  expect_string(filename,
+                min.chars = 1,
+                pattern = '.*\\.csv|.*\\.rds',
+                info = 'easyshiny in only able to read the following file formats: .csv, .rds')
   assert_function(prepare, nargs = 1)
 
-  if( !any( grepl(filename, filesets$name) ) )
+  if( !test_choice(filename, filesets$name) ) {
+    warning('The given fileset does not contain the file. ', check_choice(filename, filesets$name) ) # return a warning
     return(NULL)
+  }
 
   filesets %>%
+    filter(name == filename) %>%
     group_by(n) %>%
     do( {
-        if(file_ext(filename) == 'rds') {
-          filedata <- filter(., name ==  filename)
-          result <- readRDS(filedata$datapath)
-        } else if(file_ext(filename) == 'csv') {
-          filedata <- filter(., name == filename )
-          result <- filedata$datapath %>%
-            read.csv(..., as.is = TRUE) %>%
-            as_tibble %>%
-            prepare()
-        } else {
-          # TODO: remove this, when filetype sticking is implemented
-          result <- tibble()
-        }
-        result
+        switch(file_ext(filename),
+               # RDS reader
+               rds = readRDS(.$datapath) %>%
+                 as_tibble(),
+               # CSV reader (+ prepare function)
+               csv = read.csv(.$datapath, ..., as.is = TRUE) %>%
+                 as_tibble %>%
+                 prepare()
+        )
     } ) %>%
-    ungroup
+    ungroup()
 }
 
 #' @title Read without header
@@ -79,7 +83,7 @@ es_read_files <- function( filesets, filename, prepare = function(data) { data }
 #'
 #' @return see \code{\link{es_read_files}}
 es_read_exfiles <- function( ... ) {
-  base.data.read.files( ..., header = FALSE )
+  es_read_files( ..., header = FALSE )
 }
 
 #' @title Set the setnames
@@ -104,7 +108,7 @@ es_add_setname <- function( data, setnames ) {
   setnames <- tibble(setname = setnames) %>%
     mutate( n = row_number() )
 
-  simdata %>%
+  data %>%
     left_join( setnames )
 }
 

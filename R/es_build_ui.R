@@ -4,12 +4,11 @@
 #' @param title The title to insert in the main menu.
 #' @param visuals The visuals to use for the UI
 #'
-#' @import shinydashboard
-#' @import shiny
+#' @importFrom shinydashboard dashboardPage dashboardHeader dashboardSidebar sidebarMenu
+#'   menuItem dashboardBody tabItems tabItem box
+#' @importFrom shiny tags fileInput icon HTML
 #' @importFrom magrittr %>%
 #' @importFrom rlist list.prepend
-#' @importFrom shinycssloaders withSpinner
-#' @importFrom shinyBS bsModal
 #' @return html + js code with the needed shiny directives
 es_build_ui <-  function(title, visuals) {
   dashboardPage(

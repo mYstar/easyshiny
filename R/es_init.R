@@ -1,5 +1,3 @@
-library(shinycssloaders)
-
 appData <- new.env()
 
 #' @title Easyshiny Initialization
@@ -8,7 +6,6 @@ appData <- new.env()
 #' @param local_folder a folder on the computer running the server, containing
 #' input files to test the easyshiny program locally (console mode)
 #'
-#' @import shinycssloaders
 #' @importFrom checkmate assert check_directory_exists check_null
 #' @export
 es_init <- function(local_folder = NULL) {

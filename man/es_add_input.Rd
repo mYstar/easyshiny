@@ -20,5 +20,5 @@ an entry in the \code{input$list} useful for console mode)}
 Useful for inputs (e.g. \code{\link{textInput}}).
 The input variables can be used in shiny style (\code{input$variable}) in the output functions.
 Do not use it for output objects, as they are registered in a different way.
-The specialized functions (e.g. \code{\link{es_add_plot}}) can be used for that.
+The specialized functions (e.g. \code{\link{es_add_output}}) can be used for that.
 }

@@ -22,7 +22,7 @@ es_fileset_present <- function( filesets, setnumber ) {
 #'
 #' @return a boolean value (\code{TRUE} if the file exists, else \code{FALSE})
 es_file_present  <- function( filesets, setnumber, filename ) {
-  if( base.data.fileset.present(filesets, setnumber) )
+  if( es_fileset_present(filesets, setnumber) )
     ( filesets %>% filter(n == setnumber & grepl(pattern=filename, x=name)) %>% nrow ) >= 1
   else
     return(FALSE)

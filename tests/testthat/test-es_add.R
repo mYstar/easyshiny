@@ -1,7 +1,6 @@
-library(easyshiny)
-library(ggplot2)
+library(shiny)
 library(vdiffr)
-
+library(ggplot2)
 
 context('test adding elements to the shiny app')
 
