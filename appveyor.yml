@@ -9,7 +9,7 @@ init:
 
 install:
   - cinst python2
-  - cinst pip
+  - cinst --allow-empty-checksums pip
   - ps: pip install tdda
   - ps: Bootstrap
 
