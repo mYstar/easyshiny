@@ -17,7 +17,9 @@ Suggests:
     knitr,
     feather,
     covr,
-    tidyr
+    tidyr,
+    vdiffr,
+    ggplot2
 VignetteBuilder: knitr
 Imports:
     checkmate,
