@@ -28,12 +28,12 @@ test_that('list of input files is created correctly', {
   test_machines <- testreader()
   expect_true('tbl_df' %in% class(test_machines))
   write_feather(test_machines, '/tmp/Exp_14_09_standard_machines.feather')
-  checkreturn <- system(
-    'tdda verify /tmp/Exp_14_09_standard_machines.feather data/constraints/Exp_14_09_standard_machines.tdda',
-    intern = T)
-  file.remove('/tmp/Exp_14_09_standard_machines.feather')
-  expect_equal( sub('Constraints passing: ', '',checkreturn[length(checkreturn)-1] ) %>% as.numeric(), 141, info = checkreturn)
-  expect_equal( sub('Constraints failing: ', '',checkreturn[length(checkreturn)] ) %>% as.numeric(), 0, info = checkreturn)
+  # checkreturn <- system(
+  #   'tdda verify /tmp/Exp_14_09_standard_machines.feather data/constraints/Exp_14_09_standard_machines.tdda',
+  #   intern = T)
+  # file.remove('/tmp/Exp_14_09_standard_machines.feather')
+  # expect_equal( sub('Constraints passing: ', '',checkreturn[length(checkreturn)-1] ) %>% as.numeric(), 141, info = checkreturn)
+  # expect_equal( sub('Constraints failing: ', '',checkreturn[length(checkreturn)] ) %>% as.numeric(), 0, info = checkreturn)
 })
 
 test_that('filesets are read correctly', {
@@ -67,13 +67,13 @@ test_that('filereader reads correctly', {
   test_tbl <- easyshiny:::es_read_files(test_fs, 'statistic_qc_buffer.csv', function(data){data})
   expect_true('tbl_df' %in% class(test_tbl))
   write_feather(test_tbl, '/tmp/Exp_14_09_standard_qc.feather')
-  checkreturn <- system(
-    'tdda verify /tmp/Exp_14_09_standard_qc.feather data/constraints/Exp_14_09_standard_qc.tdda',
-    intern = T)
-  file.remove('/tmp/Exp_14_09_standard_qc.feather')
-
-  expect_equal( sub('Constraints passing: ', '',checkreturn[length(checkreturn)-1] ) %>% as.numeric(), 16, info = checkreturn)
-  expect_equal( sub('Constraints failing: ', '',checkreturn[length(checkreturn)] ) %>% as.numeric(), 0, info = checkreturn)
+  # checkreturn <- system(
+  #   'tdda verify /tmp/Exp_14_09_standard_qc.feather data/constraints/Exp_14_09_standard_qc.tdda',
+  #   intern = T)
+  # file.remove('/tmp/Exp_14_09_standard_qc.feather')
+#
+  # expect_equal( sub('Constraints passing: ', '',checkreturn[length(checkreturn)-1] ) %>% as.numeric(), 16, info = checkreturn)
+  # expect_equal( sub('Constraints failing: ', '',checkreturn[length(checkreturn)] ) %>% as.numeric(), 0, info = checkreturn)
 
   # TODO: test rds files
 })

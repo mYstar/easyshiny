@@ -3,14 +3,11 @@
 # Download script file from GitHub
 init:
   ps: |
-        $ErrorActionPreference = "Continue"
+        $ErrorActionPreference = "Stop"
         Invoke-WebRequest http://raw.github.com/krlmlr/r-appveyor/master/scripts/appveyor-tool.ps1 -OutFile "..\appveyor-tool.ps1"
         Import-Module '..\appveyor-tool.ps1'
 
 install:
-  - cinst python2
-  - cinst --allow-empty-checksums pip
-  - ps: pip install tdda
   - ps: Bootstrap
 
 cache:
