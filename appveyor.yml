@@ -8,12 +8,17 @@ init:
         Import-Module '..\appveyor-tool.ps1'
 
 install:
-  ps: Bootstrap
+  - cinst python2
+  - cinst pip
+  - ps: pip install tdda
+  - ps: Bootstrap
 
 cache:
   - C:\RLibrary
 
 # Adapt as necessary starting from here
+install:
+
 
 build_script:
   - travis-tool.sh install_deps

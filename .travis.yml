@@ -13,3 +13,7 @@ r:
 warnings_are_errors: true
 after_success:
   - Rscript -e 'covr::codecov()'
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y python-pip
+  - pip install tdda
