@@ -15,7 +15,9 @@ Suggests:
     testthat,
     rmarkdown,
     knitr,
-    feather
+    feather,
+    covr,
+    tidyr
 VignetteBuilder: knitr
 Imports:
     checkmate,
