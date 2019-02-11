@@ -3,7 +3,7 @@
 easyshiny
 =========
 
-[![Travis build status](https://travis-ci.org/mYstar/easyshiny.svg?branch=master)](https://travis-ci.org/mYstar/easyshiny)
+[![Travis build status](https://travis-ci.org/mYstar/easyshiny.svg?branch=master)](https://travis-ci.org/mYstar/easyshiny) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/mYstar/easyshiny?branch=master&svg=true)](https://ci.appveyor.com/project/mYstar/easyshiny)
 
 The goal of easyshiny is to provide an easy way to fill a Shiny Template. It can read user input data, redirect it to plotting/calculating functions and display the result in different named tabs and container boxes. The Shiny reactive setup and UI building is handled automatically.
 
