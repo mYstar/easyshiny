@@ -19,7 +19,7 @@ test_that('global vars are created and deleted', {
   expect_null(get('console_fileset', easyshiny:::appData))
   expect_list(input)
 
-  es_init(local_folder = 'data/Exp_14_09_standard/')
+  es_init(local_folder = './data/Exp_14_09_standard/')
 
   expect_tibble(
     get('console_fileset', easyshiny:::appData),
@@ -37,7 +37,7 @@ test_that('global vars are created and deleted', {
 })
 
 test_that('values are checked', {
-  es_init(local_folder = '/tmp')
+  es_init(local_folder = './data/tmp')
   es_init(local_folder = NULL)
   expect_error(es_init(local_folder = '/unknown'))
   expect_error(es_init(local_folder = NA))
