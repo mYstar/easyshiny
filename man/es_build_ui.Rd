@@ -9,7 +9,7 @@ es_build_ui(title, visuals)
 \arguments{
 \item{title}{The title to insert in the main menu.}
 
-\item{visuals}{The visuals to use for the UI}
+\item{visuals}{The visuals to use for the UI (as created in \code{globalenv$visuals})}
 }
 \value{
 html + js code with the needed shiny directives

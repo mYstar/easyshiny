@@ -2,7 +2,7 @@
 % Please edit documentation in R/es_add.R
 \name{es_add_output}
 \alias{es_add_output}
-\title{Add Plot}
+\title{Add Output Object}
 \usage{
 es_add_output(renderFunction, expr, tab = "Output", box = "Result",
   outputId = NULL, ...)
@@ -22,5 +22,5 @@ the corresponding output function will be automatically chosen}
 \item{...}{the parameters, that should be given to the output function}
 }
 \description{
-Adds a plot to the Easy Shiny app and places it into a specific tab and box.
+Adds a ouput object from shiny to the Easy Shiny app and places it into a specific tab and box.
 }

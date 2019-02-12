@@ -3,7 +3,7 @@ appData <- new.env()
 #' @title Easyshiny Initialization
 #' @description  Initializes and resets all datastructures used by easyshiny.
 #'
-#' @param local_folder a folder on the computer running the server, containing
+#' @param local_folder a folder on the computer that is running the server, containing
 #' input files to test the easyshiny program locally (console mode)
 #'
 #' @importFrom checkmate assert check_directory_exists check_null

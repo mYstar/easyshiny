@@ -7,7 +7,7 @@
 es_init(local_folder = NULL)
 }
 \arguments{
-\item{local_folder}{a folder on the computer running the server, containing
+\item{local_folder}{a folder on the computer that is running the server, containing
 input files to test the easyshiny program locally (console mode)}
 }
 \description{

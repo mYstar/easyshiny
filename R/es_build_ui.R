@@ -2,14 +2,14 @@
 #' @description Builds the UI skeleton for the app.
 #'
 #' @param title The title to insert in the main menu.
-#' @param visuals The visuals to use for the UI
+#' @param visuals The visuals to use for the UI (as created in \code{globalenv$visuals})
+#' @return html + js code with the needed shiny directives
 #'
 #' @importFrom shinydashboard dashboardPage dashboardHeader dashboardSidebar sidebarMenu
 #'   menuItem dashboardBody tabItems tabItem box
 #' @importFrom shiny tags fileInput icon HTML
 #' @importFrom magrittr %>%
 #' @importFrom rlist list.prepend
-#' @return html + js code with the needed shiny directives
 es_build_ui <-  function(title, visuals) {
   dashboardPage(
     dashboardHeader(title = title),
@@ -58,9 +58,9 @@ es_build_ui <-  function(title, visuals) {
 }
 
 #' @title Build Objects
-#' @description Builds the objects for the UI. To use in a \code{\link[shinydashboard]{box}}.
+#' @description Builds the objects for the UI. Shall be used inside a \code{\link[shinydashboard]{box}}.
 #'
-#' @param objects a matrix of object descriptions (from the visuals)
+#' @param objects a matrix of object descriptions (from \code{globalenv$visuals})
 #'
 #' @return a list of shiny \code{\link[shinydashboard]{box}}es
 #'
@@ -89,7 +89,7 @@ es_build_objects <- function(objects) {
 }
 
 #' @title Extract column
-#' @description helper to extract a column from a \code{\link{matrix}}
+#' @description A helper to extract a column from a \code{\link{matrix}}
 #'
 #' @param mat a \code{\link{matrix}}
 #' @param colname the name of the column to extract

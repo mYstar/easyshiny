@@ -7,11 +7,11 @@
 es_build_objects(objects)
 }
 \arguments{
-\item{objects}{a matrix of object descriptions (from the visuals)}
+\item{objects}{a matrix of object descriptions (from \code{globalenv$visuals})}
 }
 \value{
 a list of shiny \code{\link[shinydashboard]{box}}es
 }
 \description{
-Builds the objects for the UI. To use in a \code{\link[shinydashboard]{box}}.
+Builds the objects for the UI. Shall be used inside a \code{\link[shinydashboard]{box}}.
 }

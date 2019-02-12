@@ -14,53 +14,73 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+library(easyshiny)
+library(shiny)
+library(ggplot2)
+es_init()
 ```
 
+# Easyshiny
+
 Easyshiny is a package, that implements a shiny template for uploading and visualizing data. It tries to make the fill out process for this template as easy as possible. The goal is to make the difference between plotting data and showing it in a shiny app very small.
+
+## Basic functions
 
 To build the most barebone easyshiny app you need the following commands:
 
 ```{r, eval=FALSE}
-es_init()
+library(easyshiny)
 
+es_init()
 es_start(title = 'Your title')
 ```
 
 This builds a shinydashboard app with only an input tab. This tab can be used to upload data, but the data won't be used anywhere.
 To gain control over the uploaded files insert this between the statements above:
 
-```{r, eval=FALSE}
+```{r, results='hidden'}
 es_read('bike_buyers.csv')
 
-es_add_plot({
-  ggplot(bike_buyers(), aes(x=Commute.Distance, fill=Purchased.Bike)) +
+es_add_output(
+  renderPlot,
+  { 
+    ggplot(bike_buyers(), aes(x=Commute.Distance, fill=Purchased.Bike)) +
     geom_bar(position = 'fill')
-}, tab = 'Bikes', box = 'Visualization')
-
+  }, 
+  tab = 'Bikes', 
+  box = 'Visualization'
+)
 ```
 
-This tells the app to expect a *bike_buyers.csv* file for further processing. It builds a reactive expression (See: shiny) that returns a dataframe. The expression can be used to build plots with the es_add_plot function. The function takes a code chunk, that creates a plot and also a corresoponding Tab and Box inside the apps structure can be defined.
+This tells the app to expect a *bike_buyers.csv* file for further processing. It builds a reactive expression (See: shiny) that returns a dataframe. The expression can for example be used to build plots with the `es_add_object` function. The function takes a code chunk, that creates a plot and also a corresponding tab and box inside the apps structure can be defined.
 
-Additionally input objects can be defined via es_add_object and used in shiny fashion. An example is shown below.
+Additionally input objects can be defined via `es_add_input` and used in shiny fashion. An example is shown below.
 
-```{r, eval=FALSE}
-es_add_object(
+```{r, results='hidden'}
+es_add_input(
   sliderInput,
   inputId = "agespan",
   label='choose an agespan:',
   min=0,
   max=90,
   value=c(0,90),
-  'Bikes',
-  'Visualization')
+  tab = 'Bikes',
+  box = 'Visualization'
+)
 
-es_add_plot({
-  ggplot(
-    bike_buyers() %>% filter(Age >= input$agespan[1] & Age <= input$agespan[2]),
-    aes(x=Age, y=Income)) +
-      geom_point() +
-      geom_smooth()
-}, tab = 'Bikes', box = 'Visualization')
+es_add_output(
+  renderPlot,
+  {
+    ggplot(
+      bike_buyers() %>% filter(Age >= input$agespan[1] & Age <= input$agespan[2]),
+      aes(x=Age, y=Income)) +
+        geom_point() +
+        geom_smooth()
+  }, 
+  tab = 'Bikes', 
+  box = 'Visualization'
+)
 ```
 
 This concludes the main features up until now. The whole app would be looking like this:
@@ -70,35 +90,40 @@ es_init()
 
 es_read('bike_buyers.csv')
 
-es_add_plot({
-  ggplot(bike_buyers(), aes(x=Commute.Distance, fill=Purchased.Bike)) +
+es_add_output(
+  renderPlot,
+  { 
+    ggplot(bike_buyers(), aes(x=Commute.Distance, fill=Purchased.Bike)) +
     geom_bar(position = 'fill')
-}, tab = 'Bikes', box = 'Visualization')
+  }, 
+  tab = 'Bikes', 
+  box = 'Visualization'
+)
 
-es_add_object(
+es_add_input(
   sliderInput,
   inputId = "agespan",
   label='choose an agespan:',
   min=0,
   max=90,
   value=c(0,90),
-  'Bikes',
-  'Visualization')
+  tab = 'Bikes',
+  box = 'Visualization'
+)
 
-es_add_plot({
-  ggplot(
-    bike_buyers() %>% filter(Age >= input$agespan[1] & Age <= input$agespan[2]),
-    aes(x=Age, y=Income)) +
-      geom_point() +
-      geom_smooth()
-}, tab = 'Bikes', box = 'Visualization')
+es_add_output(
+  renderPlot,
+  {
+    ggplot(
+      bike_buyers() %>% filter(Age >= input$agespan[1] & Age <= input$agespan[2]),
+      aes(x=Age, y=Income)) +
+        geom_point() +
+        geom_smooth()
+  }, 
+  tab = 'Bikes', 
+  box = 'Visualization'
+)
 
-es_start(title = 'Your title')
-```
-
-If you want to test the app itself use: 
-
-```{r, eval=FALSE}
 es_start(title = 'Your title')
 ```
 
@@ -107,6 +132,8 @@ If you want to test the app itself use:
 ```{r, echo=TRUE}
 system.file("extdata", "bike_buyers.csv", package = "easyshiny")
 ```
+
+as example upload data.
 
 ## Console mode
 
@@ -120,22 +147,26 @@ es_init(local_folder = 'path/to/sample/data')
 
 After that it is possible to access the data and plots from the console.
 
-```{r, eval=FALSE}
-bike_buyers <- es_read('bike_buyers.csv')
-testplot <- es_add_plot({
+```{r, results='hidden'}
+es_read('bike_buyers.csv', readerId = 'bike_buyers')
+
+testplot <- es_add_output(
+  renderPlot,
+  {
   ggplot(mpg, aes(cty, hwy)) +
     geom_point()
-})
+  }
+)
 ```
 
 A function is returned, which gives the dataframe/plot when called. 
 It is also possible to view plots containing input values and using the sample data,
 as in this example:
 
-```{r, eval=FALSE}
-bike_buyers <- es_read('bike_buyers.csv')
+```{r, results='hidden'}
+es_read('bike_buyers.csv', readerId = 'bike_buyers')
 
-es_add_object(
+es_add_input(
   sliderInput,
   tab = 'Bikes',
   box = 'Visualization',
@@ -146,13 +177,18 @@ es_add_object(
   value=c(0,90)
 )
 
-income_age_plot <- es_add_plot({
+income_age_plot <- es_add_output(
+  renderPlot,
+  {
   ggplot(
     bike_buyers() %>% filter(Age >= input$agespan[1] & Age <= input$agespan[2]),
     aes(x=Age, y=Income)) +
       geom_point() +
       geom_smooth()
-}, tab = 'Bikes', box = 'Visualization')
+  }, 
+  tab = 'Bikes', 
+  box = 'Visualization'
+)
 ```
 
 The starting values of any input object will be used to create the plot.

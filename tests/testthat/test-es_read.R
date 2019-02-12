@@ -42,14 +42,14 @@ test_that('filesets are read correctly', {
 
   expect_error(es_read_filesets('~/non_existing_folder'))
 
-  test_fs <- es_read_filesets('./data/Exp_14_09_standard/')
+  test_fs <- es_read_filesets('./data/Exp_14_09_standard')
   expect_equal(length(test_fs), 4)
   expect_equal(nrow(test_fs), 16)
   expect_equal( unique(test_fs$n), 1)
   expect_true('statistic.csv' %in% test_fs$name)
   expect_true('statistic_machines.csv' %in% test_fs$name)
 
-  test_fs <- es_read_filesets( c('./data/Exp_14_09_standard/', './data/Exp_14_09_testrds/') )
+  test_fs <- es_read_filesets( c('./data/Exp_14_09_standard', './data/Exp_14_09_testrds') )
   expect_equal(length(test_fs), 4)
   expect_equal(nrow(test_fs), 32)
   expect_equal( unique(test_fs$n), c(1, 2) )
@@ -59,7 +59,7 @@ test_that('filesets are read correctly', {
 
 test_that('filereader reads correctly', {
 
-  test_fs <- easyshiny:::es_read_filesets('./data/Exp_14_09_standard/')
+  test_fs <- easyshiny:::es_read_filesets('./data/Exp_14_09_standard')
   expect_error(easyshiny:::es_read_files(test_fs, 'nonexistent'))
   expect_warning(expect_null(easyshiny:::es_read_files(test_fs, 'nonexistent.csv')))
   expect_error(easyshiny:::es_read_files(test_fs, 'statistic_stacker.xyza'))

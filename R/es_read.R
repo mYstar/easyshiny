@@ -5,7 +5,7 @@
 #'
 #' @return a dataframe in shiny \code{\link{fileInput}} format or \code{NULL} if the folder can not be found
 #'
-#' @importFrom checkmate assert check_array
+#' @importFrom checkmate assert check_array check_null check_directory_exists
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr mutate group_indices
 #' @importFrom magrittr %>%
@@ -17,18 +17,18 @@ es_read_filesets <- function( folders ) {
     check_directory_exists(folders, access = 'r')
   )
 
-  if( !is.null(folders) && all( dir.exists(folders) ) )
-  data.frame( datapath = dir(folders, full.names = TRUE) ) %>%
-    as_tibble() %>%
-    mutate(datapath = datapath %>% as.character) %>%
-    mutate( folder = dirname(datapath) ) %>%
-    mutate( name = basename(datapath) ) %>%
-    mutate( n = group_indices(., folder) )
+  if( !is.null(folders) )
+    data.frame( datapath = dir(folders, full.names = TRUE) ) %>%
+      as_tibble() %>%
+      mutate(datapath = datapath %>% as.character) %>%
+      mutate( folder = dirname(datapath) ) %>%
+      mutate( name = basename(datapath) ) %>%
+      mutate( n = group_indices(., folder) )
   else
     NULL
 }
 
-#' @title Read file
+#' @title Read files
 #' @description Read a specific file from multiple sources in the fileset and join to one \code{\link[tibble]{tibble}}.
 #'
 #' @param filesets a filesets containing one or more files with the name
@@ -90,7 +90,7 @@ es_read_exfiles <- function( ... ) {
 #' @description Add setnames to a \code{\link[tibble]{tibble}} using the group identifier n.
 #'
 #' @param data a \code{\link[tibble]{tibble}} without setnames, but containing a column named 'n' for grouping
-#' @param setnames a vector of setnames at least as long as n in the \code{\link[tibble]{tibble}}
+#' @param setnames a vector of setnames at least as long as \code{unique(n)} in the data \code{\link[tibble]{tibble}}
 #'
 #' @return the altered \code{\link[tibble]{tibble}}
 #'
@@ -115,7 +115,9 @@ es_add_setname <- function( data, setnames ) {
 #' @title Create Filereader
 #' @description Makes a file usable for user input. The file can then be supplied by the user at runtime and
 #' is provided as function under the given name for visuals creation. The function is also created
-#' in the global Environment for usage in console mode. Understands:
+#' in the global environment for usage in console mode.
+#'
+#' Understands:
 #'
 #' * .csv
 #'
@@ -125,7 +127,7 @@ es_add_setname <- function( data, setnames ) {
 #' @param readerId a name for the reader function, that can be used in the plots and console mode (default: derives the name from the filename, just cuts the ending)
 #'
 #' @importFrom checkmate assert_string
-#' @importFrom magrittr %>%
+#' @importFrom tools file_path_sans_ext
 #' @export
 es_read <- function(filename, readerId = NULL) {
   # parameter checking
@@ -134,7 +136,7 @@ es_read <- function(filename, readerId = NULL) {
 
   files_table <- get('files', envir = appData)
   if( is.null(readerId) )
-    readerId <- strsplit(filename, split = '.', fixed = T)[[1]][1]
+    readerId <- file_path_sans_ext(filename)
 
   files_table <- rbind(
     files_table,

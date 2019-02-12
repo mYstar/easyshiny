@@ -14,7 +14,9 @@ es_read(filename, readerId = NULL)
 \description{
 Makes a file usable for user input. The file can then be supplied by the user at runtime and
 is provided as function under the given name for visuals creation. The function is also created
-in the global Environment for usage in console mode. Understands:
+in the global environment for usage in console mode.
+
+Understands:
 
 * .csv
 

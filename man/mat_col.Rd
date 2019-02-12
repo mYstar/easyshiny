@@ -15,5 +15,5 @@ mat_col(mat, colname)
 a \code{\link{vector}} with the data from the column
 }
 \description{
-helper to extract a column from a \code{\link{matrix}}
+A helper to extract a column from a \code{\link{matrix}}
 }

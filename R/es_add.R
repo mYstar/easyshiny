@@ -30,8 +30,8 @@ es_summaries_to_html <- function( summaries ) {
     paste0( collapse = ' ' )
 }
 
-#' @title Add Plot
-#' @description Adds a plot to the Easy Shiny app and places it into a specific tab and box.
+#' @title Add Output Object
+#' @description Adds a ouput object from shiny to the Easy Shiny app and places it into a specific tab and box.
 #'
 #' @param renderFunction a shiny render function, that generates an output (like \code{\link{renderPlot}}),
 #'   the corresponding output function will be automatically chosen
@@ -91,18 +91,18 @@ es_add_output <- function(renderFunction, expr, tab = 'Output', box = 'Result', 
   return(function() {expr})
 }
 
-#' @title  Adds a shiny object to the UI.
+#' @title  Adds a shiny input object to the UI.
 #'
 #' @description Useful for inputs (e.g. \code{\link{textInput}}).
 #' The input variables can be used in shiny style (\code{input$variable}) in the output functions.
-#' Do not use it for output objects, as they are registered in a different way.
+#' Do not use this function to create output objects, as they are registered in a different way.
 #' The specialized functions (e.g. \code{\link{es_add_output}}) can be used for that.
 #'
 #' @param shinyfunction a shiny function to call to create the object
 #' @param tab tab to show the object in (new name creates tab)
 #' @param box box in the view area to show object in (new name creates box)
 #' @param ... the arguments to deliver to the shiny function (\code{inputId} and \code{value} create
-#' an entry in the \code{input$list} useful for console mode)
+#' an entry in the \code{input$inputId} list useful in console mode)
 #'
 #' @importFrom checkmate assert_string assert_function
 #' @export

@@ -9,7 +9,7 @@ es_add_setname(data, setnames)
 \arguments{
 \item{data}{a \code{\link[tibble]{tibble}} without setnames, but containing a column named 'n' for grouping}
 
-\item{setnames}{a vector of setnames at least as long as n in the \code{\link[tibble]{tibble}}}
+\item{setnames}{a vector of setnames at least as long as \code{unique(n)} in the data \code{\link[tibble]{tibble}}}
 }
 \value{
 the altered \code{\link[tibble]{tibble}}

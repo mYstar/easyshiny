@@ -2,7 +2,7 @@
 % Please edit documentation in R/es_read.R
 \name{es_read_files}
 \alias{es_read_files}
-\title{Read file}
+\title{Read files}
 \usage{
 es_read_files(filesets, filename, prepare = function(data) {     data },
   ...)

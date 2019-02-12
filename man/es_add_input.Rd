@@ -2,7 +2,7 @@
 % Please edit documentation in R/es_add.R
 \name{es_add_input}
 \alias{es_add_input}
-\title{Adds a shiny object to the UI.}
+\title{Adds a shiny input object to the UI.}
 \usage{
 es_add_input(shinyfunction, tab = "output", box = "objects", ...)
 }
@@ -14,11 +14,11 @@ es_add_input(shinyfunction, tab = "output", box = "objects", ...)
 \item{box}{box in the view area to show object in (new name creates box)}
 
 \item{...}{the arguments to deliver to the shiny function (\code{inputId} and \code{value} create
-an entry in the \code{input$list} useful for console mode)}
+an entry in the \code{input$inputId} list useful in console mode)}
 }
 \description{
 Useful for inputs (e.g. \code{\link{textInput}}).
 The input variables can be used in shiny style (\code{input$variable}) in the output functions.
-Do not use it for output objects, as they are registered in a different way.
+Do not use this function to create output objects, as they are registered in a different way.
 The specialized functions (e.g. \code{\link{es_add_output}}) can be used for that.
 }

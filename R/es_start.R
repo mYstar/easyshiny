@@ -7,8 +7,6 @@
 #' @return The output from \code{\link{shinyApp}}.
 #' @importFrom checkmate assert_string
 #' @importFrom shiny shinyApp
-#' @importFrom dplyr mutate
-#' @importFrom magrittr %>%
 #' @export
 es_start <- function(title='Easy Shiny Project') {
 
@@ -43,5 +41,5 @@ es_start <- function(title='Easy Shiny Project') {
       )
     }
   }
-  shiny::shinyApp(ui = ui, server = server)
+  shinyApp(ui = ui, server = server)
 }
