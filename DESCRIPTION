@@ -1,7 +1,7 @@
 Package: easyshiny
 Type: Package
 Title: Simple Set of Functions to Fill a Shiny Template
-Version: 0.1.0
+Version: 0.9
 Author: Eric Starke <eric.starke@htw-dresden.de>
 Maintainer: Eric Starke <eric.starke@htw-dresden.de>
 Description: Provides an easy way to fill a Shiny Template. It can read user input data, redirect it to plotting/calculating functions and display the result in different named tabs and container boxes. The Shiny reactive setup and UI building is handled automatically.

@@ -18,36 +18,58 @@ knitr::opts_chunk$set(
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/mYstar/easyshiny?branch=master&svg=true)](https://ci.appveyor.com/project/mYstar/easyshiny)
 [![Coverage status](https://codecov.io/gh/mYstar/easyshiny/branch/master/graph/badge.svg)](https://codecov.io/github/mYstar/easyshiny?branch=master)
 
-The goal of easyshiny is to provide an easy way to fill a Shiny Template. It can read user input data, redirect it to plotting/calculating functions and display the result in different named tabs and container boxes. The Shiny reactive setup and UI building is handled automatically.
+Easyshiny is a package, that implements a shiny template for uploading and visualizing data. It tries to make the fill out process for this template as easy as possible. The goal is to make the difference between plotting data and showing it in a shiny app very small.
 
 ## Installation
 
-You can install the released version of easyshiny from [CRAN](https://CRAN.R-project.org) with:
+This package will most probably never be on CRAN. But it can be installed via github.
 
 ``` r
-install.packages("easyshiny")
+library(devtools)
+install_github("mYstar/easyshiny")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+The simple goal of a easyshiny app is to let the user upload a file (or a set of files) and calculate some visualizations (e.g. plots) from it. This can be achieved by:
 
-```{r example}
-## basic example code
+```{r example, eval=FALSE}
+es_init()
+
+es_read('bike_buyers.csv')
+
+es_add_output(
+  renderPlot,
+  { 
+    ggplot(bike_buyers(), aes(x=Commute.Distance, fill=Purchased.Bike)) +
+    geom_bar(position = 'fill')
+  }
+)
+
+es_start(title = 'Buying Bikes')
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+After starting the app, the user then needs to upload a file named **bike_buyers.csv** and a plot will be generated in the 'Results' tab.
 
-```{r cars}
-summary(cars)
-```
+## Useful Functions
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
+To make the most of your visuals, you should see the documentation of these functions:
 
-You can also embed plots, for example:
+* `es_init()` -- for initialization
+* `es_read()` -- to register data sources
+* `es_add_output()` -- to insert any shiny output object type into the app
+* `es_add_input()` -- to insert and use dynamic shiny inputs
+* `es_start()` -- to start the app
 
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
+There is also a vignette in `vignette('example-app', package = 'easyshiny')` that shows how to use these functions.
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
+## Console Mode
+
+For development the data and visualizations can also be generated locally (without starting a server).
+This is called console mode and the vignette `vignette('example-app', package = 'easyshiny')` shows how to use it, at the end.
+
+## Contribute
+
+If someone wants to contribute, has questions or finds a bug, just contact me at: *eric.starke@htw-dresden.de*. 
+Pull requests and patches are very welcome.
+
