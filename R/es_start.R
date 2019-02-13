@@ -17,6 +17,7 @@ es_start <- function(title='Easy Shiny Project') {
   visuals <- get('visuals', envir = appData)
 
   ui <- es_build_ui(title, visuals)
+
   server <- function(input, output) {
 
       # create the filereader functions

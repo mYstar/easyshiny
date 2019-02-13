@@ -6,19 +6,21 @@
 
 Adds the given params to the internal visuals list.}
 \usage{
-es_add(render_call, ui_function, tab, box, resize = FALSE)
+es_add(render_call, ui_call, tab, box, resize = FALSE, ...)
 }
 \arguments{
 \item{render_call}{a call to a shiny render... function (e.g. \code{\link{renderPlot}})
 or NULL for input and static elements}
 
-\item{ui_function}{a shiny Output function (should have an `inputId` parameter)}
+\item{ui_call}{a shiny Output function call (should have a valid `inputId`)}
 
 \item{tab}{the tabname (default: 'Output')}
 
 \item{box}{the boxname (default: 'Result')}
 
 \item{resize}{logical, shall the object be resizable in a modal Window (shinyBS, Default: FALSE)}
+
+\item{...}{arguments to pass to the \code{ui_function}}
 }
 \description{
 Add Shiny Object to App

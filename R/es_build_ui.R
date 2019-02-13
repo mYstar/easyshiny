@@ -31,19 +31,19 @@ es_build_ui <-  function(title, visuals) {
         )
       ),
       do.call(tabItems,
-          lapply( visuals[,'tab'] %>% unique(), function(tabname) {
-            tabItem(tabName=tabname,
-              lapply( visuals[visuals %>% mat_col('tab') == tabname,'box'] %>% unique(), function(boxname) {
-                  box(
-                    width = 12,
-                    status = "info",
-                    title=boxname,
-                    es_build_objects(visuals[visuals %>% mat_col('tab') == tabname & visuals %>% mat_col('box') == boxname, ,drop=FALSE])
-             ) } ) # 2nd lapply (boxes)
-          ) } )
+        lapply( visuals[,'tab'] %>% unique(), function(tabname) {
+          tabItem(tabName=tabname,
+            lapply( visuals[visuals %>% mat_col('tab') == tabname,'box'] %>% unique(), function(boxname) {
+              box(
+                width = 12,
+                status = "info",
+                title=boxname,
+                es_build_objects(visuals[visuals %>% mat_col('tab') == tabname & visuals %>% mat_col('box') == boxname, ,drop=FALSE])
+            ) } ) # 2nd lapply (boxes)
+         ) } ) # 1st lapply (tabs)
       ) # do.call
-    )
-  )
+    ) # dashboardBody
+  ) # dashboardPage
 }
 
 #' @title Build Objects
@@ -60,10 +60,14 @@ es_build_ui <-  function(title, visuals) {
 es_build_objects <- function(objects) {
   apply( objects, 1, function(obj) {
     if(obj$resize) {
-      ui_function <- obj$ui_func
+      # create a different outputId for the modal window
+      ui_call <- obj$ui_func
+      ui_call$outputId <- paste0('win_',obj$id)
+
+      # create object for UI and modal window
       list(
-        bsModal(paste0('win_', obj$id), '', paste0('link_', obj$id), size='large', ui_function(outputId=paste0('win_',obj$id))),
-        a( href='#', id=paste0('link_', obj$id), ui_function(outputId=obj$id) %>% withSpinner() )
+        bsModal(paste0('win_', obj$id), '', paste0('link_', obj$id), size='large', eval(ui_call)),
+        a( href='#', id=paste0('link_', obj$id), eval(obj$ui_func) %>% withSpinner() )
       )
     }
     else
