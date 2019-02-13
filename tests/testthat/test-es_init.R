@@ -13,9 +13,11 @@ test_that('global vars are created and deleted', {
 
   es_init()
 
-  expect_matrix(get('visuals', easyshiny:::appData), nrows = 0, col.names = c('id', 'expr', 'tab', 'box', 'ui_func', 'type'))
+  visuals <- get('visuals', easyshiny:::appData)
+  expect_matrix(visuals, nrows = 1)
+  expect_set_equal(colnames(visuals), c('id', 'render_func', 'tab', 'box', 'ui_func', 'resize'))
   expect_list(get('files', easyshiny:::appData), len = 0)
-  expect_equal(get('vis_counter', easyshiny:::appData), 0)
+  expect_equal(get('vis_counter', easyshiny:::appData), 1)
   expect_null(get('console_fileset', easyshiny:::appData))
   expect_list(input)
 

@@ -30,6 +30,41 @@ es_summaries_to_html <- function( summaries ) {
     paste0( collapse = ' ' )
 }
 
+#' @title Add Shiny Object to App
+#'
+#' Adds the given params to the internal visuals list.
+#'
+#' @param render_call a call to a shiny render... function (e.g. \code{\link{renderPlot}})
+#'   or NULL for input and static elements
+#' @param ui_function a shiny Output function (should have an `inputId` parameter)
+#' @param tab the tabname (default: 'Output')
+#' @param box the boxname (default: 'Result')
+#' @param resize logical, shall the object be resizable in a modal Window (shinyBS, Default: FALSE)
+#'
+#' @return NULL
+es_add <- function(render_call, ui_function, tab, box, resize = FALSE) {
+
+  # get an unique number for the plot
+  vis_counter <- get('vis_counter', envir = appData)
+  vis_counter <- vis_counter + 1
+  assign('vis_counter', vis_counter, envir = appData)
+
+  # add the plot to the visuals
+  vis_matrix <- get('visuals', envir = appData)
+  vis_matrix <- rbind(
+    vis_matrix,
+    list(
+      id=paste0('object_', vis_counter),
+      render_func=render_call,
+      ui_func=ui_function,
+      tab=tab,
+      box=box,
+      resize=resize
+      )
+    )
+  assign('visuals', vis_matrix, envir = appData)
+
+}
 #' @title Add Output Object
 #' @description Adds a ouput object from shiny to the Easy Shiny app and places it into a specific tab and box.
 #'
@@ -39,17 +74,15 @@ es_summaries_to_html <- function( summaries ) {
 #' @param ... the parameters, that should be given to the output function
 #' @param tab tab to show the plot in (default: 'Output', new name creates tab)
 #' @param box box in the view area to show plot in (default: 'Result', new name creates box)
-#' @param outputId (optional) if given, defines a function in global environment, that generates the plot
 #'
 #' @importFrom checkmate assert_string assert_function
 #' @importFrom shiny plotOutput dataTableOutput imageOutput verbatimTextOutput tableOutput textOutput htmlOutput
 #' @export
-es_add_output <- function(renderFunction, expr, tab = 'Output', box = 'Result', outputId = NULL, ...) {
+es_add_output <- function(renderFunction, expr, tab = 'Output', box = 'Result', ...) {
   # argument check
   assert_function(renderFunction)
   assert_string(tab)
   assert_string(box)
-  assert_string(outputId, null.ok = T)
 
   # internal data structure
   # is used to determine the right UI output element for each es_add_output call
@@ -68,25 +101,14 @@ es_add_output <- function(renderFunction, expr, tab = 'Output', box = 'Result', 
   ui_function <- translate_output_UI[[render_function_name]]
   assert_function(ui_function)
 
-  # get an unique number for the plot
-  vis_counter <- get('vis_counter', envir = appData)
-  vis_counter <- vis_counter + 1
-  assign('vis_counter', vis_counter, envir = appData)
-
-  # add the plot to the visuals
-  vis_matrix <- get('visuals', envir = appData)
-  vis_matrix <- rbind(
-    vis_matrix,
-    list(
-      id=paste0('output', vis_counter),
-      expr=substitute( renderFunction(expr, ...) ),
-      tab=tab,
-      box=box,
-      ui_func=ui_function,
-      type='output' # TODO: remove after visuals is refactored
-      )
+  es_add(
+    render_call = substitute(renderFunction(expr)),
+    ui_function = ui_function,
+    tab,
+    box,
+    resize = TRUE,
+    ...
     )
-  assign('visuals', vis_matrix, envir = appData)
 
   return(function() {expr})
 }
@@ -112,25 +134,12 @@ es_add_input <- function(shinyfunction, tab = 'output', box = 'objects', ...) {
   assert_string(tab)
   assert_string(box)
 
-  # get an unique number for the plot
-  vis_counter <- get('vis_counter', envir = appData)
-  vis_counter <- vis_counter + 1
-  assign('vis_counter', vis_counter, envir = appData)
-
-  # update the matrix of visuals
-  vis_matrix <- get('visuals', envir = appData)
-  vis_matrix <- rbind(
-    vis_matrix,
-    list(
-      id=paste0('object_', vis_counter),
-      expr=substitute( shinyfunction(...) ),
-      tab=tab,
-      box=box,
-      ui_func=shinyfunction,
-      type='object'
-      )
+  es_add(
+    render_call = NULL,
+    ui_function = substitute(shinyfunction(...)),
+    tab = tab,
+    box = box
     )
-  assign('visuals', vis_matrix, envir = appData)
 
   # add the default value to the input$ list in globalenv
   arguments <- list(...)

@@ -32,10 +32,9 @@ es_start <- function(title='Easy Shiny Project') {
       # render all the visuals
       if(length(visuals) > 0) {
         apply(visuals, 1, function(line) {
-          if(line$type == 'output') {
-            output[[line$id]] <- eval(line$expr)
-            output[[paste0('win_', line$id)]] <- eval(line$expr)
-
+          if(! is.null(line$render_func) ) {
+            output[[line$id]] <- eval(line$render_func)
+            output[[paste0('win_', line$id)]] <- eval(line$render_func)
           }
         }
       )

@@ -3,7 +3,7 @@ appData <- new.env()
 #' @title Easyshiny Initialization
 #' @description  Initializes and resets all datastructures used by easyshiny.
 #'
-#' @param local_folder a folder on the computer that is running the server, containing
+#' @param local_folder a folder on the computer that isrunning the server, containing
 #' input files to test the easyshiny program locally (console mode)
 #'
 #' @importFrom checkmate assert check_directory_exists check_null
@@ -16,7 +16,7 @@ es_init <- function(local_folder = NULL) {
   )
 
   visuals <- matrix(ncol = 6)
-  colnames(visuals) <- c('id', 'expr', 'tab', 'box', 'ui_func', 'type')
+  colnames(visuals) <- c('id', 'render_func', 'ui_func', 'tab', 'box', 'resize')
   visuals <- visuals[!is.na(visuals[,'id']),]
   assign('visuals', visuals, envir = appData)
   assign('vis_counter', 0, envir = appData)
@@ -25,4 +25,14 @@ es_init <- function(local_folder = NULL) {
   assign('files', list(), envir = appData)
 
   assign('input', list(), envir = globalenv())
+
+  # add the file input
+  es_add_input(
+    fileInput,
+    tab = 'input',
+    box = 'Filedata',
+    inputId = 'files1',
+    label = 'choose Files:',
+    multiple = TRUE
+  )
 }
