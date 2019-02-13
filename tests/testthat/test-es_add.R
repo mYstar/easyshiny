@@ -56,3 +56,18 @@ test_that('input objects are created correctly', {
   input <- get('input', envir = globalenv())
   expect_equal(input$test, 42)
 })
+
+test_that('static elements are created correctly', {
+
+  es_init()
+  es_add_static(tags$p('This is a paragraph', strong('with a bold element in it')), tab = 'static test', box = 'static box')
+
+  visuals <- get('visuals', easyshiny:::appData)
+  expect_equal(nrow(visuals), 2)
+
+  expect_equal(visuals[2,]$tab, 'static test')
+  expect_equal(visuals[2,]$box, 'static box')
+  expect_null(visuals[2,]$render_func)
+  expect_equal(class(visuals[2,]$ui_func), 'call')
+  expect_false(visuals[2,]$resize)
+} )

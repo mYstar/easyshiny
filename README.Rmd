@@ -59,6 +59,7 @@ To make the most of your visuals, you should see the documentation of these func
 * `es_read()` -- to register data sources
 * `es_add_output()` -- to insert any shiny output object type into the app
 * `es_add_input()` -- to insert and use dynamic shiny inputs
+* `es_add_static()` -- to insert static shiny HTML elements
 * `es_start()` -- to start the app
 
 There is also a vignette in `vignette('example-app', package = 'easyshiny')` that shows how to use these functions.

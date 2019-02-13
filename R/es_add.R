@@ -140,7 +140,7 @@ es_add_output <- function(renderFunction, expr, tab = 'Output', box = 'Result', 
 #'
 #' @importFrom checkmate assert_string assert_function
 #' @export
-es_add_input <- function(shinyfunction, tab = 'output', box = 'objects', ...) {
+es_add_input <- function(shinyfunction, tab = 'Output', box = 'Result', ...) {
   # argument check
   assert_function(shinyfunction, args = c('inputId', 'label'))
   assert_string(tab)
@@ -161,4 +161,23 @@ es_add_input <- function(shinyfunction, tab = 'output', box = 'objects', ...) {
     input[[arguments$inputId]] <- arguments$value
     assign('input', input, envir = globalenv())
   }
+}
+
+#' @title Add Static Component
+#' @description Adds a static shiny component to the easyshiny app.
+#'   The object can be composed of different nested shiny calls and will be placed in the given tab and box.
+#'
+#' @param static_call a call to a \code{\link[shiny]{tags}} element or a corresponding wrapper
+#' @param tab the tab to place the static element in
+#' @param box the box to place the static element in
+#'
+#' @importFrom checkmate assert_string
+#' @export
+es_add_static <- function(static_call, tab = 'Output', box = 'Result') {
+  # param check
+  assert_string(tab)
+  assert_string(box)
+
+  # add to visuals
+  es_add(render_call = NULL, ui_call = substitute(static_call), tab = tab, box = box, resize = FALSE)
 }

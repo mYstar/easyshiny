@@ -2,6 +2,7 @@
 
 export(es_add_input)
 export(es_add_output)
+export(es_add_static)
 export(es_init)
 export(es_read)
 export(es_start)

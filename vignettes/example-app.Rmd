@@ -83,6 +83,18 @@ es_add_output(
 )
 ```
 
+If you want to include static HTML elements to the app, the function `es_add_static` has you covered. It understands all the static element creators defined in Shiny. Use it like so:
+
+```{r, results='hidden'}
+es_add_static( 
+  tags$p('This is a paragraph.', strong('With a nested part inside')), 
+  tab = 'Bikes',
+  box = "Visualization"
+)
+```
+
+As you can see, The elements can be nested of course. Keep in mind, that all created objects will be placed in the corresponding boxes in the order of their definition.
+
 This concludes the main features up until now. The whole app would be looking like this:
 
 ```{r, eval=FALSE}
@@ -98,6 +110,12 @@ es_add_output(
   }, 
   tab = 'Bikes', 
   box = 'Visualization'
+)
+
+es_add_static( 
+  tags$p('This is a paragraph.', strong('With a nested part inside')), 
+  tab = 'Bikes',
+  box = "Visualization"
 )
 
 es_add_input(

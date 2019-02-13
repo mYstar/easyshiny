@@ -4,7 +4,7 @@
 \alias{es_add_input}
 \title{Adds a shiny input object to the UI.}
 \usage{
-es_add_input(shinyfunction, tab = "output", box = "objects", ...)
+es_add_input(shinyfunction, tab = "Output", box = "Result", ...)
 }
 \arguments{
 \item{shinyfunction}{a shiny function to call to create the object}
