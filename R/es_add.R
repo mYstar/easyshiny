@@ -77,54 +77,6 @@ es_add <- function(render_call, ui_call, tab, box, resize = FALSE, ...) {
   assign('visuals', vis_matrix, envir = appData)
 }
 
-#' @title Add Output Object
-#' @description Adds a ouput object from shiny to the Easy Shiny app and places it into a specific tab and box.
-#'
-#' @param renderFunction a shiny render function, that generates an output (like \code{\link{renderPlot}}),
-#'   the corresponding output function will be automatically chosen
-#' @param expr the expression to pass to the outputFunction (should be generating the correct object type)
-#' @param ... the parameters, that should be given to the output function
-#' @param tab tab to show the plot in (default: 'Output', new name creates tab)
-#' @param box box in the view area to show plot in (default: 'Result', new name creates box)
-#'
-#' @importFrom checkmate assert_string assert_function
-#' @importFrom shiny plotOutput dataTableOutput imageOutput verbatimTextOutput tableOutput textOutput htmlOutput
-#' @export
-es_add_output <- function(renderFunction, expr, tab = 'Output', box = 'Result', ...) {
-  # argument check
-  assert_function(renderFunction)
-  assert_string(tab)
-  assert_string(box)
-
-  # internal data structure
-  # is used to determine the right UI output element for each es_add_output call
-  translate_output_UI <- list(
-    renderPlot = plotOutput,
-    renderDataTable = dataTableOutput,
-    renderImage = imageOutput,
-    renderPrint = verbatimTextOutput,
-    renderTable = tableOutput,
-    renderText = textOutput,
-    renderUI = htmlOutput
-  )
-
-  # determine UI element
-  render_function_name <- as.character(substitute(renderFunction))
-  ui_function <- translate_output_UI[[render_function_name]]
-  assert_function(ui_function)
-
-  es_add(
-    render_call = substitute(renderFunction(expr)),
-    ui_call = substitute(ui_function(outputId = 'output_')),
-    tab,
-    box,
-    resize = TRUE,
-    ...
-    )
-
-  return(function() {expr})
-}
-
 #' @title  Adds a shiny input object to the UI.
 #'
 #' @description Useful for inputs (e.g. \code{\link{textInput}}).

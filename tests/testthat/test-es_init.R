@@ -8,7 +8,7 @@ test_that('global vars are created and deleted', {
   es_init()
 
   es_read('test.csv')
-  es_add_output(renderPlot, {})
+  es_renderPlot({})
   es_add_input(textInput, inputId = 'id', label = 'label')
 
   es_init()

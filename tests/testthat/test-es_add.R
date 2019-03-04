@@ -38,7 +38,7 @@ test_that('objects are created correctly', {
 } )
 
 test_that('output objects are created correctly', {
-  testplot <- es_add_output(renderPlot, {
+  testplot <- es_renderPlot({
     ggplot(mpg, aes(cty, hwy)) +
       geom_point()
   })
