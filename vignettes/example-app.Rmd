@@ -42,8 +42,7 @@ To gain control over the uploaded files insert this between the statements above
 ```{r, results='hidden'}
 es_read('bike_buyers.csv')
 
-es_add_output(
-  renderPlot,
+es_renderPlot(
   { 
     ggplot(bike_buyers(), aes(x=Commute.Distance, fill=Purchased.Bike)) +
     geom_bar(position = 'fill')
@@ -53,7 +52,7 @@ es_add_output(
 )
 ```
 
-This tells the app to expect a *bike_buyers.csv* file for further processing. It builds a reactive expression (See: shiny) that returns a dataframe. The expression can for example be used to build plots with the `es_add_object` function. The function takes a code chunk, that creates a plot and also a corresponding tab and box inside the apps structure can be defined.
+This tells the app to expect a *bike_buyers.csv* file for further processing. It builds a reactive expression (See: shiny) that returns a dataframe. The expression can for example be used to build plots with the `es_renderPlot` function. The function takes a code chunk, that creates a plot and also a corresponding tab and box inside the apps structure can be defined.
 
 Additionally input objects can be defined via `es_add_input` and used in shiny fashion. An example is shown below.
 
@@ -69,8 +68,7 @@ es_add_input(
   box = 'Visualization'
 )
 
-es_add_output(
-  renderPlot,
+es_renderPlot(
   {
     ggplot(
       bike_buyers() %>% filter(Age >= input$agespan[1] & Age <= input$agespan[2]),
@@ -102,8 +100,7 @@ es_init()
 
 es_read('bike_buyers.csv')
 
-es_add_output(
-  renderPlot,
+es_renderPlot(
   { 
     ggplot(bike_buyers(), aes(x=Commute.Distance, fill=Purchased.Bike)) +
     geom_bar(position = 'fill')
@@ -129,8 +126,7 @@ es_add_input(
   box = 'Visualization'
 )
 
-es_add_output(
-  renderPlot,
+es_renderPlot(
   {
     ggplot(
       bike_buyers() %>% filter(Age >= input$agespan[1] & Age <= input$agespan[2]),
@@ -168,8 +164,7 @@ After that it is possible to access the data and plots from the console.
 ```{r, results='hidden'}
 es_read('bike_buyers.csv', readerId = 'bike_buyers')
 
-testplot <- es_add_output(
-  renderPlot,
+testplot <- es_renderPlot(
   {
   ggplot(mpg, aes(cty, hwy)) +
     geom_point()
@@ -195,8 +190,7 @@ es_add_input(
   value=c(0,90)
 )
 
-income_age_plot <- es_add_output(
-  renderPlot,
+income_age_plot <- es_renderPlot(
   {
   ggplot(
     bike_buyers() %>% filter(Age >= input$agespan[1] & Age <= input$agespan[2]),

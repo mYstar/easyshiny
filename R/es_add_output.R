@@ -27,51 +27,65 @@ es_add_output <- function(render_call, ui_function, tab = 'Output', box = 'Resul
     )
 }
 
-#' @describeIn es_add_output
+#' @title Add Output Object
 #'
-#' adds a shiny plot to the app
+#' @description Adds an output object from shiny to the Easy Shiny app and places it into a specific tab and box. All the
+#'   wrapper functions pass all their arguments to \code{es_add_output} (useful for specifying tabs and boxes).
 #'
 #' @param expr the expression to pass to the outputFunction (should be generating the correct object type)
+#' @param tab tab to show the plot in (default: 'Output', new name creates tab)
+#' @param box box in the view area to show plot in (default: 'Result', new name creates box)
+#' @param ... the parameters, that should be given to the output function
 #' @export
-es_renderPlot <- function(expr, ...) {
+es_renderPlot <- function(expr, tab, box, ...) {
   es_add_output(substitute(renderPlot(expr)), plotOutput, ...)
   return( function() { expr } )
   }
 
-#' @describeIn es_add_output
+#' @describeIn es_renderPlot
 #'
 #' adds a shiny datatable to the app
-#'
-#' @param expr the expression to pass to the outputFunction (should be generating the correct object type)
 #' @export
-es_renderDataTable <- function(expr, ...) { es_add_output(substitute(renderDataTable(expr)), dataTableOutput, ...) }
+es_renderDataTable <- function(expr, ...) { es_add_output(substitute(renderDataTable(expr)), dataTableOutput, ...)
+  return( function() { expr } )
+  }
 
-#' @describeIn es_add_output
+#' @describeIn es_renderPlot
 #'
 #' adds a shiny image to the app
 #' @export
-es_renderImage <- function(expr, ...) { es_add_output(substitute(renderImage(expr)), imageOutput, ...) }
+es_renderImage <- function(expr, ...) { es_add_output(substitute(renderImage(expr)), imageOutput, ...)
+  return( function() { expr } )
+  }
 
-#' @describeIn es_add_output
+#' @describeIn es_renderPlot
 #'
 #' prints the results in the app
 #' @export
-es_renderPrint <- function(expr, ...) { es_add_output(substitute(renderPrint(expr)), verbatimTextOutput, ...) }
+es_renderPrint <- function(expr, ...) { es_add_output(substitute(renderPrint(expr)), verbatimTextOutput, ...)
+  return( function() { expr } )
+  }
 
-#' @describeIn es_add_output
+#' @describeIn es_renderPlot
 #'
 #' adds a shiny table to the app
 #' @export
-es_renderTable <- function(expr, ...) { es_add_output(substitute(renderTable(expr)), tableOutput, ...) }
+es_renderTable <- function(expr, ...) { es_add_output(substitute(renderTable(expr)), tableOutput, ...)
+  return( function() { expr } )
+  }
 
-#' @describeIn es_add_output
+#' @describeIn es_renderPlot
 #'
 #' adds a shiny text to the app
 #' @export
-es_renderText <- function(expr, ...) { es_add_output(substitute(renderText(expr)), textOutput, ...) }
+es_renderText <- function(expr, ...) { es_add_output(substitute(renderText(expr)), textOutput, ...)
+  return( function() { expr } )
+  }
 
-#' @describeIn es_add_output
+#' @describeIn es_renderPlot
 #'
 #' adds shiny UI elements to the app
 #' @export
-es_renderUI <- function(expr, ...) { es_add_output(substitute(renderUI(expr)), htmlOutput, ...) }
+es_renderUI <- function(expr, ...) { es_add_output(substitute(renderUI(expr)), htmlOutput, ...)
+  return( function() { expr } )
+  }

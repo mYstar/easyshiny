@@ -2,31 +2,10 @@
 % Please edit documentation in R/es_add_output.R
 \name{es_add_output}
 \alias{es_add_output}
-\alias{es_renderPlot}
-\alias{es_renderDataTable}
-\alias{es_renderImage}
-\alias{es_renderPrint}
-\alias{es_renderTable}
-\alias{es_renderText}
-\alias{es_renderUI}
 \title{Add Output Object}
 \usage{
 es_add_output(render_call, ui_function, tab = "Output", box = "Result",
   ...)
-
-es_renderPlot(expr, ...)
-
-es_renderDataTable(expr, ...)
-
-es_renderImage(expr, ...)
-
-es_renderPrint(expr, ...)
-
-es_renderTable(expr, ...)
-
-es_renderText(expr, ...)
-
-es_renderUI(expr, ...)
 }
 \arguments{
 \item{render_call}{a call to a shiny render function, that generates an output (like \code{\link{renderPlot}}),
@@ -39,29 +18,8 @@ the corresponding output function will be automatically chosen}
 \item{box}{box in the view area to show plot in (default: 'Result', new name creates box)}
 
 \item{...}{the parameters, that should be given to the output function}
-
-\item{expr}{the expression to pass to the outputFunction (should be generating the correct object type)}
-
-\item{expr}{the expression to pass to the outputFunction (should be generating the correct object type)}
 }
 \description{
 Adds an output object from shiny to the Easy Shiny app and places it into a specific tab and box. All the
   wrapper functions pass all their arguments to \code{es_add_output} (useful for specifying tabs and boxes).
 }
-\section{Functions}{
-\itemize{
-\item \code{es_renderPlot}: adds a shiny plot to the app
-
-\item \code{es_renderDataTable}: adds a shiny datatable to the app
-
-\item \code{es_renderImage}: adds a shiny image to the app
-
-\item \code{es_renderPrint}: prints the results in the app
-
-\item \code{es_renderTable}: adds a shiny table to the app
-
-\item \code{es_renderText}: adds a shiny text to the app
-
-\item \code{es_renderUI}: adds shiny UI elements to the app
-}}
-
