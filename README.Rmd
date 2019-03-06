@@ -34,12 +34,16 @@ install_github("mYstar/easyshiny")
 The simple goal of a easyshiny app is to let the user upload a file (or a set of files) and calculate some visualizations (e.g. plots) from it. This can be achieved by:
 
 ```{r example, eval=FALSE}
+library(shiny)
+library(shinyBS)
+library(easyshiny)
+library(ggplot2)
+
 es_init()
 
 es_read('bike_buyers.csv')
 
-es_add_output(
-  renderPlot,
+es_renderPlot(
   { 
     ggplot(bike_buyers(), aes(x=Commute.Distance, fill=Purchased.Bike)) +
     geom_bar(position = 'fill')
@@ -57,17 +61,17 @@ To make the most of your visuals, you should see the documentation of these func
 
 * `es_init()` -- for initialization
 * `es_read()` -- to register data sources
-* `es_add_output()` -- to insert any shiny output object type into the app
+* `es_renderPlot()` -- to insert an plot into the app (there are functions for every shiny output type)
 * `es_add_input()` -- to insert and use dynamic shiny inputs
 * `es_add_static()` -- to insert static shiny HTML elements
 * `es_start()` -- to start the app
 
-There is also a vignette in `vignette('example-app', package = 'easyshiny')` that shows how to use these functions.
+After running: `devtools::build_vignettes('easyshiny')` there is also a vignette in `vignette('example-app', package = 'easyshiny')` that shows how to use these functions.
 
 ## Console Mode
 
 For development the data and visualizations can also be generated locally (without starting a server).
-This is called console mode and the vignette `vignette('example-app', package = 'easyshiny')` shows how to use it, at the end.
+This is called console mode and the vignette `vignette('console-mode', package = 'easyshiny')` shows how to use it, at the end.
 
 ## Contribute
 
