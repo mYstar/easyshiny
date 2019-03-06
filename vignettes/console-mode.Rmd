@@ -1,0 +1,79 @@
+---
+title: "Console Mode"
+author: "Eric Starke"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Console Mode}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(easyshiny)
+library(shiny)
+library(ggplot2)
+es_init()
+```
+
+## Console mode
+
+There is a console mode in easyshiny, which makes it easier to develop your app. 
+It gives you access to the plots, as they would be rendered in the browser and to the input data in tibble form.
+To activate this feature you just have to provide a folder with example data to `es_init`.
+
+```{r, eval=FALSE}
+es_init(local_folder = 'path/to/sample/data')
+```
+
+After that it is possible to access the data and plots from the console.
+
+```{r, results='hidden'}
+es_read('bike_buyers.csv', readerId = 'bike_buyers')
+
+testplot <- es_add_output(
+  renderPlot,
+  {
+  ggplot(mpg, aes(cty, hwy)) +
+    geom_point()
+  }
+)
+```
+
+A function is returned, which gives the dataframe/plot when called. 
+It is also possible to view plots containing input values and using the sample data,
+as in this example:
+
+```{r, results='hidden'}
+es_read('bike_buyers.csv', readerId = 'bike_buyers')
+
+es_add_input(
+  sliderInput,
+  tab = 'Bikes',
+  box = 'Visualization',
+  inputId = "agespan",
+  label='choose an agespan:',
+  min=0,
+  max=90,
+  value=c(0,90)
+)
+
+income_age_plot <- es_add_output(
+  renderPlot,
+  {
+  ggplot(
+    bike_buyers() %>% filter(Age >= input$agespan[1] & Age <= input$agespan[2]),
+    aes(x=Age, y=Income)) +
+      geom_point() +
+      geom_smooth()
+  }, 
+  tab = 'Bikes', 
+  box = 'Visualization'
+)
+```
+
+The starting values of any input object will be used to create the plot.
