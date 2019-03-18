@@ -1,6 +1,7 @@
 #' @title Add Output Object
-#' @description Adds an output object from shiny to the Easy Shiny app and places it into a specific tab and box. All the
-#'   wrapper functions pass all their arguments to \code{es_add_output} (useful for specifying tabs and boxes).
+#' @description Adds an output object from shiny to the Easy Shiny app and places it into a specific tab and box
+#'   after the previously inserted elements. All the wrapper functions pass all their arguments to
+#'   \code{es_add_output} (useful for specifying tabs and boxes).
 #'
 #' @param render_call a call to a shiny render function, that generates an output (like \code{\link{renderPlot}}),
 #'   the corresponding output function will be automatically chosen
@@ -11,11 +12,16 @@
 #'
 #' @importFrom checkmate assert_string assert_function
 #' @importFrom shiny plotOutput dataTableOutput imageOutput verbatimTextOutput tableOutput textOutput htmlOutput
-es_add_output <- function(render_call, ui_function, tab = 'Output', box = 'Result', ...) {
+es_add_output <- function(render_call, ui_function, tab = NULL, box = NULL, ...) {
   # argument check
   assert_function(ui_function)
-  assert_string(tab)
-  assert_string(box)
+  assert_string(tab, null.ok = TRUE)
+  assert_string(box, null.ok = TRUE)
+
+  if(is.null(tab))
+    tab <- 'Output'
+  if(is.null(box))
+    box <- 'Output'
 
   es_add(
     render_call = render_call,
@@ -37,8 +43,8 @@ es_add_output <- function(render_call, ui_function, tab = 'Output', box = 'Resul
 #' @param box box in the view area to show plot in (default: 'Result', new name creates box)
 #' @param ... the parameters, that should be given to the output function
 #' @export
-es_renderPlot <- function(expr, tab, box, ...) {
-  es_add_output(substitute(renderPlot(expr)), plotOutput, ...)
+es_renderPlot <- function(expr, tab=NULL, box=NULL, ...) {
+  es_add_output(substitute(renderPlot(expr)), plotOutput, tab, box, ...)
   return( function() { expr } )
   }
 
@@ -46,7 +52,7 @@ es_renderPlot <- function(expr, tab, box, ...) {
 #'
 #' adds a shiny datatable to the app
 #' @export
-es_renderDataTable <- function(expr, ...) { es_add_output(substitute(renderDataTable(expr)), dataTableOutput, ...)
+es_renderDataTable <- function(expr, tab=NULL, box=NULL, ...) { es_add_output(substitute(renderDataTable(expr)), dataTableOutput, tab, box, ...)
   return( function() { expr } )
   }
 
@@ -54,7 +60,7 @@ es_renderDataTable <- function(expr, ...) { es_add_output(substitute(renderDataT
 #'
 #' adds a shiny image to the app
 #' @export
-es_renderImage <- function(expr, ...) { es_add_output(substitute(renderImage(expr)), imageOutput, ...)
+es_renderImage <- function(expr, tab=NULL, box=NULL, ...) { es_add_output(substitute(renderImage(expr)), imageOutput, tab, box, ...)
   return( function() { expr } )
   }
 
@@ -62,7 +68,7 @@ es_renderImage <- function(expr, ...) { es_add_output(substitute(renderImage(exp
 #'
 #' prints the results in the app
 #' @export
-es_renderPrint <- function(expr, ...) { es_add_output(substitute(renderPrint(expr)), verbatimTextOutput, ...)
+es_renderPrint <- function(expr, tab=NULL, box=NULL, ...) { es_add_output(substitute(renderPrint(expr)), verbatimTextOutput, tab, box, ...)
   return( function() { expr } )
   }
 
@@ -70,7 +76,7 @@ es_renderPrint <- function(expr, ...) { es_add_output(substitute(renderPrint(exp
 #'
 #' adds a shiny table to the app
 #' @export
-es_renderTable <- function(expr, ...) { es_add_output(substitute(renderTable(expr)), tableOutput, ...)
+es_renderTable <- function(expr, tab=NULL, box=NULL, ...) { es_add_output(substitute(renderTable(expr)), tableOutput, tab, box, ...)
   return( function() { expr } )
   }
 
@@ -78,7 +84,7 @@ es_renderTable <- function(expr, ...) { es_add_output(substitute(renderTable(exp
 #'
 #' adds a shiny text to the app
 #' @export
-es_renderText <- function(expr, ...) { es_add_output(substitute(renderText(expr)), textOutput, ...)
+es_renderText <- function(expr, tab=NULL, box=NULL, ...) { es_add_output(substitute(renderText(expr)), textOutput, tab, box, ...)
   return( function() { expr } )
   }
 
@@ -86,6 +92,6 @@ es_renderText <- function(expr, ...) { es_add_output(substitute(renderText(expr)
 #'
 #' adds shiny UI elements to the app
 #' @export
-es_renderUI <- function(expr, ...) { es_add_output(substitute(renderUI(expr)), htmlOutput, ...)
+es_renderUI <- function(expr, tab=NULL, box=NULL, ...) { es_add_output(substitute(renderUI(expr)), htmlOutput, tab, box, ...)
   return( function() { expr } )
   }

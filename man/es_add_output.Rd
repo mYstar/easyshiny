@@ -4,8 +4,7 @@
 \alias{es_add_output}
 \title{Add Output Object}
 \usage{
-es_add_output(render_call, ui_function, tab = "Output", box = "Result",
-  ...)
+es_add_output(render_call, ui_function, tab = NULL, box = NULL, ...)
 }
 \arguments{
 \item{render_call}{a call to a shiny render function, that generates an output (like \code{\link{renderPlot}}),
@@ -20,6 +19,7 @@ the corresponding output function will be automatically chosen}
 \item{...}{the parameters, that should be given to the output function}
 }
 \description{
-Adds an output object from shiny to the Easy Shiny app and places it into a specific tab and box. All the
-  wrapper functions pass all their arguments to \code{es_add_output} (useful for specifying tabs and boxes).
+Adds an output object from shiny to the Easy Shiny app and places it into a specific tab and box
+  after the previously inserted elements. All the wrapper functions pass all their arguments to
+  \code{es_add_output} (useful for specifying tabs and boxes).
 }

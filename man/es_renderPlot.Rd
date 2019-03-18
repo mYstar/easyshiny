@@ -10,19 +10,19 @@
 \alias{es_renderUI}
 \title{Add Output Object}
 \usage{
-es_renderPlot(expr, tab, box, ...)
+es_renderPlot(expr, tab = NULL, box = NULL, ...)
 
-es_renderDataTable(expr, ...)
+es_renderDataTable(expr, tab = NULL, box = NULL, ...)
 
-es_renderImage(expr, ...)
+es_renderImage(expr, tab = NULL, box = NULL, ...)
 
-es_renderPrint(expr, ...)
+es_renderPrint(expr, tab = NULL, box = NULL, ...)
 
-es_renderTable(expr, ...)
+es_renderTable(expr, tab = NULL, box = NULL, ...)
 
-es_renderText(expr, ...)
+es_renderText(expr, tab = NULL, box = NULL, ...)
 
-es_renderUI(expr, ...)
+es_renderUI(expr, tab = NULL, box = NULL, ...)
 }
 \arguments{
 \item{expr}{the expression to pass to the outputFunction (should be generating the correct object type)}

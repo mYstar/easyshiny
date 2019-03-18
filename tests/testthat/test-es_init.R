@@ -39,7 +39,7 @@ test_that('global vars are created and deleted', {
 })
 
 test_that('values are checked', {
-  es_init(local_folder = './data/tmp')
+  es_init(local_folder = './data')
   es_init(local_folder = NULL)
   expect_error(es_init(local_folder = '/unknown'))
   expect_error(es_init(local_folder = NA))
