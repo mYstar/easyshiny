@@ -21,7 +21,7 @@ es_start <- function(title='Easy Shiny Project') {
   server <- function(input, output) {
 
       # create the filereader functions
-      if(nrow(files) > 0) {
+      if(length(files) > 0) {
         for(idx in 1:nrow(files)) {
           assign(
             files[idx,]$id,

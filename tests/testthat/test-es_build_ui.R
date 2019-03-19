@@ -1,19 +1,16 @@
 library(easyshiny)
+library(shinytest)
 
 context('test UI generation')
 
 test_that('barebone UI', {
-  es_init()
-  ui <- easyshiny:::es_build_ui(title = 'test', visuals = get('visuals', easyshiny:::appData))
-  # expect_known_hash(ui, '27870904ff')
+  run <- testApp('bareboneApp/', 'bareboneApp', quiet = TRUE)
+  expect_true(run$results[[1]]$pass)
 })
 
-test_that('plots are added', {
-  es_init()
-  es_renderPlot({})
-  es_renderPlot({})
-  ui <- easyshiny:::es_build_ui(title = 'test', visuals = get('visuals', easyshiny:::appData))
-  # expect_known_hash(ui, 'f1d170ca59')
+test_that('elements are added', {
+  expect_warning(run <- testApp('elementsApp/', 'elementsApp', quiet = TRUE))
+  expect_true(run$results[[1]]$pass)
 })
 
 test_that('tabs are added', {

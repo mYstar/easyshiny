@@ -15,6 +15,7 @@ es_build_ui <-  function(title, visuals) {
     dashboardHeader(title = title),
     dashboardSidebar(
       sidebarMenu(
+        id = 'sidebar',
         if(length(visuals) > 0) {
           lapply(visuals[, 'tab'] %>% unique() , function(tname) {
             menuItem(tname, tabName = tname, icon = icon('gears'))
