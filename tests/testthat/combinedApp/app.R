@@ -1,0 +1,11 @@
+library(shiny)
+library(shinyBS)
+library(easyshiny)
+library(ggplot2)
+
+es_init()
+es_renderPlot({qplot(mtcars$mpg) + ggtitle(label = input$title)}, tab = 'tab-1', box = 'new box')
+es_renderPlot({qplot(mtcars$mpg) + ggtitle(label = input$title)}, tab = 'tab-2', box = 'new box 2')
+es_renderPlot({qplot(mtcars$mpg) + ggtitle(label = input$title)}, tab = 'tab-2', box = 'box 3')
+es_renderPlot({qplot(mtcars$mpg) + ggtitle(label = input$title)}, tab = 'tab-3', box = 'box 3')
+es_start(title = 'combinedApp')

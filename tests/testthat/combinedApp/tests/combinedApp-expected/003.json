@@ -1,0 +1,181 @@
+{
+  "input": {
+    "files1": null,
+    "modal_output_2": false,
+    "modal_output_3": false,
+    "modal_output_4": false,
+    "modal_output_5": false,
+    "sidebar": "tab-3",
+    "sidebarCollapsed": false,
+    "sidebarItemExpanded": null
+  },
+  "output": {
+    "output_2": {
+      "src": "[image data sha1: a2ba4ff68cc8bf003e720aa84db604b9fbef29a9]",
+      "width": 682,
+      "height": 400,
+      "coordmap": {
+        "panels": [
+          {
+            "panel": 1,
+            "row": 1,
+            "col": 1,
+            "panel_vars": {
+
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 8.91379310344827,
+              "right": 35.6551724137931,
+              "bottom": -0.25,
+              "top": 5.25
+            },
+            "mapping": {
+              "y": null,
+              "x": "mtcars$mpg"
+            },
+            "range": {
+              "left": 29.1506849315069,
+              "right": 676.520547945205,
+              "bottom": 365.849315068493,
+              "top": 5.47945205479452
+            }
+          }
+        ],
+        "dims": {
+          "width": 682,
+          "height": 400
+        }
+      }
+    },
+    "output_3": {
+      "src": "[image data sha1: 73b9a79f15b125d36b2e017d988ee13425255f2f]",
+      "width": 666,
+      "height": 400,
+      "coordmap": {
+        "panels": [
+          {
+            "panel": 1,
+            "row": 1,
+            "col": 1,
+            "panel_vars": {
+
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 8.91379310344827,
+              "right": 35.6551724137931,
+              "bottom": -0.25,
+              "top": 5.25
+            },
+            "mapping": {
+              "y": null,
+              "x": "mtcars$mpg"
+            },
+            "range": {
+              "left": 29.1506849315068,
+              "right": 660.520547945205,
+              "bottom": 365.849315068493,
+              "top": 5.47945205479452
+            }
+          }
+        ],
+        "dims": {
+          "width": 666,
+          "height": 400
+        }
+      }
+    },
+    "output_4": {
+      "src": "[image data sha1: 73b9a79f15b125d36b2e017d988ee13425255f2f]",
+      "width": 666,
+      "height": 400,
+      "coordmap": {
+        "panels": [
+          {
+            "panel": 1,
+            "row": 1,
+            "col": 1,
+            "panel_vars": {
+
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 8.91379310344827,
+              "right": 35.6551724137931,
+              "bottom": -0.25,
+              "top": 5.25
+            },
+            "mapping": {
+              "y": null,
+              "x": "mtcars$mpg"
+            },
+            "range": {
+              "left": 29.1506849315068,
+              "right": 660.520547945205,
+              "bottom": 365.849315068493,
+              "top": 5.47945205479452
+            }
+          }
+        ],
+        "dims": {
+          "width": 666,
+          "height": 400
+        }
+      }
+    },
+    "output_5": {
+      "src": "[image data sha1: a2ba4ff68cc8bf003e720aa84db604b9fbef29a9]",
+      "width": 682,
+      "height": 400,
+      "coordmap": {
+        "panels": [
+          {
+            "panel": 1,
+            "row": 1,
+            "col": 1,
+            "panel_vars": {
+
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 8.91379310344827,
+              "right": 35.6551724137931,
+              "bottom": -0.25,
+              "top": 5.25
+            },
+            "mapping": {
+              "y": null,
+              "x": "mtcars$mpg"
+            },
+            "range": {
+              "left": 29.1506849315069,
+              "right": 676.520547945205,
+              "bottom": 365.849315068493,
+              "top": 5.47945205479452
+            }
+          }
+        ],
+        "dims": {
+          "width": 682,
+          "height": 400
+        }
+      }
+    }
+  },
+  "export": {
+
+  }
+}

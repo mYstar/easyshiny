@@ -18,7 +18,8 @@ Suggests:
     covr,
     tidyr,
     vdiffr,
-    ggplot2
+    ggplot2,
+    shinytest
 VignetteBuilder: knitr
 Imports:
     testthat,

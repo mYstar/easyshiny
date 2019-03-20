@@ -1,0 +1,17 @@
+{
+  "input": {
+    "files1": null,
+    "modal_output_2": false,
+    "modal_output_4": false,
+    "sidebar": "Text",
+    "sidebarCollapsed": false,
+    "sidebarItemExpanded": null,
+    "title": ""
+  },
+  "output": {
+    "output_2": "This is a simple test if elements are inserted into the app."
+  },
+  "export": {
+
+  }
+}

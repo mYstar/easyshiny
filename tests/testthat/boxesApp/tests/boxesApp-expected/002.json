@@ -6,12 +6,12 @@
     "sidebar": "Output",
     "sidebarCollapsed": false,
     "sidebarItemExpanded": null,
-    "title": "Plot Title"
+    "title": "Test"
   },
   "output": {
     "output_2": "This is a simple test if elements are inserted into the app.",
     "output_4": {
-      "src": "[image data sha1: ab89c2404fdad7cf0d01ff8225c5590fb8d8f67b]",
+      "src": "[image data sha1: 39f7893a93e96897aba09b8d755f5eafcf794c2c]",
       "width": 666,
       "height": 400,
       "coordmap": {

@@ -2,17 +2,17 @@
   "input": {
     "files1": null,
     "modal_output_2": false,
+    "modal_output_3": false,
     "modal_output_4": false,
-    "sidebar": "Output",
+    "modal_output_5": false,
+    "sidebar": "tab-1",
     "sidebarCollapsed": false,
-    "sidebarItemExpanded": null,
-    "title": "Plot Title"
+    "sidebarItemExpanded": null
   },
   "output": {
-    "output_2": "This is a simple test if elements are inserted into the app.",
-    "output_4": {
-      "src": "[image data sha1: ab89c2404fdad7cf0d01ff8225c5590fb8d8f67b]",
-      "width": 666,
+    "output_2": {
+      "src": "[image data sha1: a2ba4ff68cc8bf003e720aa84db604b9fbef29a9]",
+      "width": 682,
       "height": 400,
       "coordmap": {
         "panels": [
@@ -38,15 +38,15 @@
               "x": "mtcars$mpg"
             },
             "range": {
-              "left": 29.1506849315068,
-              "right": 660.520547945205,
+              "left": 29.1506849315069,
+              "right": 676.520547945205,
               "bottom": 365.849315068493,
-              "top": 23.958904109589
+              "top": 5.47945205479452
             }
           }
         ],
         "dims": {
-          "width": 666,
+          "width": 682,
           "height": 400
         }
       }

@@ -21,7 +21,7 @@ es_add_output <- function(render_call, ui_function, tab = NULL, box = NULL, ...)
   if(is.null(tab))
     tab <- 'Output'
   if(is.null(box))
-    box <- 'Output'
+    box <- 'Result'
 
   es_add(
     render_call = render_call,

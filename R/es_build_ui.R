@@ -67,7 +67,7 @@ es_build_objects <- function(objects) {
 
       # create object for UI and modal window
       list(
-        bsModal(paste0('win_', obj$id), '', paste0('link_', obj$id), size='large', eval(ui_call)),
+        bsModal(paste0('modal_', obj$id), '', paste0('link_', obj$id), size='large', eval(ui_call)),
         a( href='#', id=paste0('link_', obj$id), eval(obj$ui_func) %>% withSpinner() )
       )
     }
