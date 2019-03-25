@@ -1,7 +1,6 @@
 {
   "input": {
     "files1": null,
-    "modal_output_2": false,
     "modal_output_4": false,
     "sidebar": "Output",
     "sidebarCollapsed": false,
@@ -11,8 +10,8 @@
   "output": {
     "output_2": "This is a simple test if elements are inserted into the app.",
     "output_4": {
-      "src": "[image data sha1: e1578280f1f5fea9e72baa310800723b320d9357]",
-      "width": 666,
+      "src": "[image data sha1: 6490602918a498daac46d7723ebd7d7bcd4a8452]",
+      "width": 682,
       "height": 400,
       "coordmap": {
         "panels": [
@@ -38,15 +37,15 @@
               "x": "mtcars$mpg"
             },
             "range": {
-              "left": 29.1506849315068,
-              "right": 660.520547945205,
+              "left": 29.1506849315069,
+              "right": 676.520547945205,
               "bottom": 365.849315068493,
               "top": 23.958904109589
             }
           }
         ],
         "dims": {
-          "width": 666,
+          "width": 682,
           "height": 400
         }
       }

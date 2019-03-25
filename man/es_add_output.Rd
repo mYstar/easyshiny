@@ -4,7 +4,8 @@
 \alias{es_add_output}
 \title{Add Output Object}
 \usage{
-es_add_output(render_call, ui_function, tab = NULL, box = NULL, ...)
+es_add_output(render_call, ui_function, tab = NULL, box = NULL,
+  resize = TRUE, ...)
 }
 \arguments{
 \item{render_call}{a call to a shiny render function, that generates an output (like \code{\link{renderPlot}}),
@@ -15,6 +16,8 @@ the corresponding output function will be automatically chosen}
 \item{tab}{tab to show the plot in (default: 'Output', new name creates tab)}
 
 \item{box}{box in the view area to show plot in (default: 'Result', new name creates box)}
+
+\item{resize}{boolean switch, determines if a fullscreen modal dialog is created}
 
 \item{...}{the parameters, that should be given to the output function}
 }
