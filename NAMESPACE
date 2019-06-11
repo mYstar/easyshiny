@@ -3,6 +3,7 @@
 export(es_add_input)
 export(es_add_static)
 export(es_init)
+export(es_reactive)
 export(es_read)
 export(es_renderDataTable)
 export(es_renderImage)

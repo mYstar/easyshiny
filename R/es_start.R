@@ -15,6 +15,7 @@ es_start <- function(title='Easy Shiny Project') {
 
   files <- get('files', envir = appData)
   visuals <- get('visuals', envir = appData)
+  reactives <- get('reactives', envir = appData)
 
   ui <- es_build_ui(title, visuals)
 
@@ -26,6 +27,17 @@ es_start <- function(title='Easy Shiny Project') {
           assign(
             files[idx,]$id,
             eval(files[idx,]$reader)
+          )
+        }
+      }
+
+      # create all reactive values
+      print(reactives)
+      if(length(reactives) > 0) {
+        for(idx in 1:nrow(reactives)) {
+          assign(
+            reactives[idx,]$id,
+            eval(reactives[idx,]$rvalue)
           )
         }
       }
