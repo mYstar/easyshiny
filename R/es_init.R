@@ -26,14 +26,4 @@ es_init <- function(local_folder = NULL) {
   assign('reactives', list(), envir = appData)
 
   assign('input', list(), envir = globalenv())
-
-  # add the file input
-  es_add_input(
-    fileInput,
-    tab = 'Input',
-    box = 'Dateien',
-    inputId = 'files1',
-    label = 'Dateiauswahl:',
-    multiple = FALSE
-  )
 }
