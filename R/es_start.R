@@ -32,7 +32,6 @@ es_start <- function(title='Easy Shiny Project') {
       }
 
       # create all reactive values
-      print(reactives)
       if(length(reactives) > 0) {
         for(idx in 1:nrow(reactives)) {
           assign(

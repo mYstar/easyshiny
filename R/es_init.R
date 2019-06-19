@@ -30,10 +30,10 @@ es_init <- function(local_folder = NULL) {
   # add the file input
   es_add_input(
     fileInput,
-    tab = 'input',
-    box = 'Filedata',
+    tab = 'Input',
+    box = 'Dateien',
     inputId = 'files1',
-    label = 'choose Files:',
-    multiple = TRUE
+    label = 'Dateiauswahl:',
+    multiple = FALSE
   )
 }

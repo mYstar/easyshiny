@@ -19,6 +19,5 @@ es_reactive <- function(id, expression) {
       rvalue=substitute( reactive({expression}))
       )
     )
-  print(reactive_table)
   assign('reactives', reactive_table, envir = appData)
 }
